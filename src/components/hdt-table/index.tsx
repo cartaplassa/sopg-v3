@@ -11,10 +11,7 @@ import {
   GridProps,
 } from "@chakra-ui/react";
 import { useState, MouseEvent, ChangeEvent, FormEvent } from "react";
-
-// // className={"hdt__custom-" + target + "radio"}
-// gridColumn={[]}
-// gridRow={[]}
+import gridCoordinates from "./gridCoordinates";
 
 type Selection = "custom" | "random" | "match";
 
@@ -47,7 +44,7 @@ interface HDTData {
   case: Case;
 }
 
-const initialHDT: HDTData = {
+const initialHDTData: HDTData = {
   header: {
     custom: "~",
     selected: "custom",
@@ -137,21 +134,10 @@ function GridRadioGroup({
 }
 
 export default function HDT() {
-  const [table, setTable] = useState(initialHDT);
+  const [table, setTable] = useState(initialHDTData);
 
   const logTable = (_: MouseEvent<HTMLButtonElement>) => console.log(table);
-  // e: ChangeEvent<HTMLInputElement> & { target: { value: SelectionHeader } };
-  // const handleCustomHeader = (e: ChangeEvent<HTMLInputElement>) => {
-  //   const updatedTable = table;
-  //   updatedTable.header.custom = e.target.value;
-  //   setTable(updatedTable);
-  // };
 
-  // const handleCharPool = (e: ChangeEvent<HTMLInputElement>) => {
-  //   const updatedTable = table;
-  //   updatedTable.charPool = e.target.value;
-  //   setTable(updatedTable);
-  // };
   const handleCharPool = (
     e: ChangeEvent<HTMLInputElement> & {
       target: { value: Selection };
@@ -200,19 +186,10 @@ export default function HDT() {
   };
 
   return (
-    <Grid
-      gridTemplateColumns={[
-        "repeat(2, 1fr)",
-        "repeat(6, 1fr)",
-        "repeat(4, 1fr)",
-      ]}
-      gridTemplateRows={["repeat(9, 1fr)", "repeat(9, 1fr)", "repeat(6, 1fr)"]}
-      gap="4px"
-    >
+    <Grid {...gridCoordinates.root} gap="4px">
       {/* CHAR POOL */}
       <Heading
-        gridColumn={["2 / span 1", "5 / span 2", "4 / span 1"]}
-        gridRowStart={[1, 1, 1]}
+        {...gridCoordinates.charPool.heading}
         as="h3"
         size="md"
         m="auto 0"
@@ -220,26 +197,18 @@ export default function HDT() {
         Char pool
       </Heading>
       <Input
-        gridColumn={["2 / span 1", "5 / span 2", "4 / span 1"]}
-        gridRow={[2, 2, 2]}
+        {...gridCoordinates.charPool.input}
         placeholder="Char pool"
         alt="Char pool"
         defaultValue={table.charPool}
         onChange={handleCharPool}
       />
       {/* HEADER */}
-      <Heading
-        gridColumn={["2 / span 1", "1 / span 4", "1 / span 1"]}
-        gridRow={[3, 1, 2]}
-        as="h3"
-        size="md"
-        m="auto 0"
-      >
+      <Heading {...gridCoordinates.header.heading} as="h3" size="md" m="auto 0">
         Header
       </Heading>
       <FlexRadioGroup
-        gridColumn={[2, "1 / span 4", "2 / span 2"]}
-        gridRow={["4 / span 2", 2, 2]}
+        {...gridCoordinates.header.flexRadioGroup}
         direction={["column", "row", "row"]}
         defaultValue="custom"
         onChange={(value) => handleSelected(value, "header")}
@@ -250,19 +219,13 @@ export default function HDT() {
           inputValue={table.header.custom}
           inputOnChange={(e) => handleCustomField(e, "header")}
         />
-        <Radio
-          flex="1 1 0px"
-          gridColumn={["2 / span 1", "3 / span 2", "3 / span 1"]}
-          gridRow={[5, 2, 2]}
-          value="random"
-        >
+        <Radio flex="1 1 0px" value="random">
           Random
         </Radio>
       </FlexRadioGroup>
       {/* DIVIDER */}
       <Heading
-        gridColumn={["1 / span 1", "1 / span 6", "1 / span 1"]}
-        gridRow={[6, 3, 3]}
+        {...gridCoordinates.divider.heading}
         as="h3"
         size="md"
         m="auto 0"
@@ -270,8 +233,7 @@ export default function HDT() {
         Dividers
       </Heading>
       <FlexRadioGroup
-        gridColumn={[1, "1 / span 6", "2 / span 3"]}
-        gridRow={["7 / span 3", 4, 3]}
+        {...gridCoordinates.divider.flexRadioGroup}
         direction={["column", "row", "row"]}
         defaultValue="custom"
         onChange={(value) => handleSelected(value, "divider")}
@@ -290,18 +252,11 @@ export default function HDT() {
         </Radio>
       </FlexRadioGroup>
       {/* TAIL */}
-      <Heading
-        gridColumn={["2 / span 1", "1 / span 6", "1 / span 1"]}
-        gridRow={[6, 5, 4]}
-        as="h3"
-        size="md"
-        m="auto 0"
-      >
+      <Heading {...gridCoordinates.tail.heading} as="h3" size="md" m="auto 0">
         Tails
       </Heading>
       <FlexRadioGroup
-        gridColumn={[2, "1 / span 6", "2 / span 3"]}
-        gridRow={["7 / span 3", 6, 4]}
+        {...gridCoordinates.tail.flexRadioGroup}
         direction={["column", "row", "row"]}
         defaultValue="custom"
         onChange={(value) => handleSelected(value, "tail")}
@@ -320,30 +275,13 @@ export default function HDT() {
         </Radio>
       </FlexRadioGroup>
       {/* CASE */}
-      <Heading
-        gridColumn={["1 / span 1", "1 / span 6", "1 / span 4"]}
-        gridRow={[1, 7, 5]}
-        as="h3"
-        size="md"
-        m="auto 0"
-      >
+      <Heading {...gridCoordinates.case.heading} as="h3" size="md" m="auto 0">
         Case
       </Heading>
       <GridRadioGroup
         defaultValue="capitalize"
         onChange={handleCase}
-        gridColumn={[1, "1 / span 6", "1 / span 4"]}
-        gridRow={["2 / span 4", "8 / span 2", 6]}
-        gridTemplateColumns={[
-          "repeat(1, 1fr)",
-          "repeat(2, 1fr)",
-          "repeat(4, 1fr)",
-        ]}
-        gridTemplateRows={[
-          "repeat(4, 1fr)",
-          "repeat(2, 1fr)",
-          "repeat(1, 1fr)",
-        ]}
+        {...gridCoordinates.case.gridRadioGroup}
       >
         <Radio value="lowercase">Lowercase</Radio>
         <Radio value="capitalize">Capitalize</Radio>
@@ -353,11 +291,7 @@ export default function HDT() {
 
       {/* DEBUG */}
 
-      <Button
-        onClick={logTable}
-        gridColumn={["1 / span 2", "1 / span 6", "1 / span 4"]}
-        gridRow={[10, 10, 7]}
-      >
+      <Button onClick={logTable} {...gridCoordinates.logButton}>
         [DEBUG] Log
       </Button>
     </Grid>

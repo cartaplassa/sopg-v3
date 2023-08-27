@@ -4,7 +4,7 @@ import { passwordEntropy } from "./passwordEntropy";
 import { StrengthBar } from "./strengthBar";
 import testGeneratePassword from "./passGenTest";
 
-export default function Header() {
+export default function Control() {
   const [password, setPassword] = useState("Y0ur+P4ssw0rd+H3r3");
   const [entropy, setEntropy] = useState(passwordEntropy(password));
   const regenPassword = () => {

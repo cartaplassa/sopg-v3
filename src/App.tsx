@@ -8,10 +8,10 @@ import {
   AccordionIcon,
   AccordionPanel,
 } from "@chakra-ui/react";
-import Header from "./components/header/header";
-import HDT from "./components/hdt-table/hdt";
-import Inclusion from "./components/inclusion/inclusion";
-import Leetrules from "./components/leetrules/leetrules";
+import Control from "./components/control";
+import HDT from "./components/hdt-table";
+import Inclusion from "./components/inclusion";
+import Leetrules from "./components/leetrules";
 
 function App() {
   return (
@@ -25,7 +25,7 @@ function App() {
       margin="0 auto"
     >
       <Heading>Ass Awe Pee Gee 3: Electric Boogaloo</Heading>
-      <Header />
+      <Control />
       <Accordion allowToggle>
         <AccordionItem>
           <h2>
