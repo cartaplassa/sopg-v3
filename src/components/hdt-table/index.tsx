@@ -44,7 +44,7 @@ interface HDTData {
   case: Case;
 }
 
-const initialHDTData: HDTData = {
+export const initialHDTData: HDTData = {
   header: {
     custom: "~",
     selected: "custom",

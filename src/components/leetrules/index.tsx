@@ -18,7 +18,7 @@ interface Rule {
   toggled: boolean;
 }
 
-const initialRules: Rule[] = [
+export const initialRules: Rule[] = [
   { id: Date.now(), ruleFrom: "I,i", ruleTo: "1", toggled: true },
   { id: Date.now() + 1, ruleFrom: "A,a", ruleTo: "4", toggled: true },
   { id: Date.now() + 2, ruleFrom: "O,o", ruleTo: "0", toggled: true },

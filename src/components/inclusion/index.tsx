@@ -17,7 +17,7 @@ interface Word {
   toggled: boolean;
 }
 
-const initialWords: Word[] = [
+export const initialWords: Word[] = [
   { id: Date.now(), partOfSpeech: "adjective", toggled: true },
   { id: Date.now() + 1, partOfSpeech: "noun", toggled: true },
   { id: Date.now() + 2, partOfSpeech: "verb", toggled: true },
