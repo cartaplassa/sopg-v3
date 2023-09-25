@@ -10,56 +10,10 @@ import {
   Button,
   GridProps,
 } from "@chakra-ui/react";
-import { useState, MouseEvent, ChangeEvent, FormEvent } from "react";
+import { MouseEvent } from "react";
+import { ValidSelection } from "./initials";
 import gridCoordinates from "./gridCoordinates";
-
-type Selection = "custom" | "random" | "match";
-
-function isValidSelection(arg: any): arg is Selection {
-  return ["custom", "random", "match"].includes(arg as Selection);
-}
-
-type Case = "lowercase" | "capitalize" | "uppercase" | "reversecap";
-
-function isValidCase(arg: any): arg is Case {
-  return ["lowercase", "capitalize", "uppercase", "reversecap"].includes(
-    arg as Case
-  );
-}
-
-interface HDTData {
-  header: {
-    custom: string;
-    selected: Selection;
-  };
-  divider: {
-    custom: string;
-    selected: Selection;
-  };
-  tail: {
-    custom: string;
-    selected: Selection;
-  };
-  charPool: string;
-  case: Case;
-}
-
-export const initialHDTData: HDTData = {
-  header: {
-    custom: "~",
-    selected: "custom",
-  },
-  divider: {
-    custom: "-",
-    selected: "custom",
-  },
-  tail: {
-    custom: "#",
-    selected: "custom",
-  },
-  charPool: "~!@#%^&*/|\\-+=",
-  case: "capitalize",
-};
+import { useConfigStore, State } from "@store/index";
 
 interface RadioInputProps extends FlexProps {
   value: string;
@@ -134,56 +88,15 @@ function GridRadioGroup({
 }
 
 export default function HDT() {
-  const [table, setTable] = useState(initialHDTData);
+  // const [table, setTable] = useState(initialHDTData);
+  const table = useConfigStore((state: State) => state.config.HDT);
+
+  const changeCase = useConfigStore((state: State) => state.changeCase);
+  const editCharPool = useConfigStore((state: State) => state.editCharPool);
+  const setHDTElement = useConfigStore((state: State) => state.setHDTElement);
+  const editHDTCustom = useConfigStore((state: State) => state.editHDTCustom);
 
   const logTable = (_: MouseEvent<HTMLButtonElement>) => console.log(table);
-
-  const handleCharPool = (
-    e: ChangeEvent<HTMLInputElement> & {
-      target: { value: Selection };
-    }
-  ) =>
-    setTable({
-      ...table,
-      charPool: e.target.value,
-    });
-
-  const handleCustomField = (
-    e: ChangeEvent<HTMLInputElement>,
-    field: "header" | "divider" | "tail"
-  ) => {
-    const updatedTable = table;
-    updatedTable[field].custom = e.target.value;
-    setTable(updatedTable);
-  };
-
-  const handleSelected = (
-    value: Selection | string | FormEvent<HTMLDivElement>,
-    target: "header" | "divider" | "tail"
-  ) => {
-    if (isValidSelection(value)) {
-      const updatedTable = table;
-      updatedTable[target].selected = value;
-      setTable(updatedTable);
-      return;
-    }
-    throw new TypeError(
-      "Passed value " + value + " isn't allowed: not a valid Selection"
-    );
-  };
-
-  const handleCase = (value: Case | string | FormEvent<HTMLDivElement>) => {
-    if (isValidCase(value)) {
-      setTable({
-        ...table,
-        case: value,
-      });
-      return;
-    }
-    throw new TypeError(
-      "Passed value " + value + " isn't allowed: not a valid Case"
-    );
-  };
 
   return (
     <Grid {...gridCoordinates.root} gap="4px">
@@ -201,7 +114,7 @@ export default function HDT() {
         placeholder="Char pool"
         alt="Char pool"
         defaultValue={table.charPool}
-        onChange={handleCharPool}
+        onChange={(e) => editCharPool(e.target.value)}
       />
       {/* HEADER */}
       <Heading {...gridCoordinates.header.heading} as="h3" size="md" m="auto 0">
@@ -211,13 +124,13 @@ export default function HDT() {
         {...gridCoordinates.header.flexRadioGroup}
         direction={["column", "row", "row"]}
         defaultValue="custom"
-        onChange={(value) => handleSelected(value, "header")}
+        onChange={(value) => setHDTElement(value as ValidSelection, "header")}
       >
         <RadioInput
           flex="1 1 0px"
           value="custom"
           inputValue={table.header.custom}
-          inputOnChange={(e) => handleCustomField(e, "header")}
+          inputOnChange={(e) => editHDTCustom(e.target.value, "header")}
         />
         <Radio flex="1 1 0px" value="random">
           Random
@@ -236,13 +149,13 @@ export default function HDT() {
         {...gridCoordinates.divider.flexRadioGroup}
         direction={["column", "row", "row"]}
         defaultValue="custom"
-        onChange={(value) => handleSelected(value, "divider")}
+        onChange={(value) => setHDTElement(value as ValidSelection, "divider")}
       >
         <RadioInput
           flex="1 1 0px"
           value="custom"
           inputValue={table.divider.custom}
-          inputOnChange={(e) => handleCustomField(e, "divider")}
+          inputOnChange={(e) => editHDTCustom(e.target.value, "divider")}
         />
         <Radio flex="1 1 0px" value="random">
           Random
@@ -259,13 +172,13 @@ export default function HDT() {
         {...gridCoordinates.tail.flexRadioGroup}
         direction={["column", "row", "row"]}
         defaultValue="custom"
-        onChange={(value) => handleSelected(value, "tail")}
+        onChange={(value) => setHDTElement(value as ValidSelection, "tail")}
       >
         <RadioInput
           flex="1 1 0px"
           value="custom"
           inputValue={table.tail.custom}
-          inputOnChange={(e) => handleCustomField(e, "tail")}
+          inputOnChange={(e) => editHDTCustom(e.target.value, "tail")}
         />
         <Radio flex="1 1 0px" value="random">
           Random
@@ -280,7 +193,7 @@ export default function HDT() {
       </Heading>
       <GridRadioGroup
         defaultValue="capitalize"
-        onChange={handleCase}
+        onChange={(value) => changeCase(value as string)}
         {...gridCoordinates.case.gridRadioGroup}
       >
         <Radio value="lowercase">Lowercase</Radio>

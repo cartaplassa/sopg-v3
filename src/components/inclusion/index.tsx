@@ -9,24 +9,13 @@ import {
   Box,
   Button,
 } from "@chakra-ui/react";
-import { useState, MouseEvent, ChangeEvent } from "react";
-
-interface Word {
-  id: number;
-  partOfSpeech: "adjective" | "adverb" | "noun" | "verb";
-  toggled: boolean;
-}
-
-export const initialWords: Word[] = [
-  { id: Date.now(), partOfSpeech: "adjective", toggled: true },
-  { id: Date.now() + 1, partOfSpeech: "noun", toggled: true },
-  { id: Date.now() + 2, partOfSpeech: "verb", toggled: true },
-  { id: Date.now() + 3, partOfSpeech: "adverb", toggled: true },
-];
+import { MouseEvent } from "react";
+import { PartOfSpeech, Word } from "./initials";
+import { useConfigStore, State } from "@store/index";
 
 interface IncludedWordProps extends FlexProps {
   index: number;
-  partOfSpeech: "adjective" | "adverb" | "noun" | "verb";
+  partOfSpeech: PartOfSpeech;
   handleWordChange: React.ChangeEventHandler<HTMLSelectElement>;
   removeWord: React.MouseEventHandler<HTMLButtonElement>;
   toggleWord: React.ChangeEventHandler<HTMLInputElement>;
@@ -60,31 +49,38 @@ function IncludedWord({
 }
 
 export default function Inclusion() {
-  const [words, setWords] = useState(initialWords);
+  // const [words, setWords] = useState(initialWords);
+  const words = useConfigStore((state: State) => state.config.words);
+
+  const addWord = useConfigStore((state: State) => state.addWord);
+  const removeWord = useConfigStore((state: State) => state.removeWord);
+  const setWord = useConfigStore((state: State) => state.setWord);
+  const toggleWord = useConfigStore((state: State) => state.toggleWord);
 
   const logWords = (_: MouseEvent<HTMLButtonElement>) =>
-    console.log(words.filter((word) => word.partOfSpeech));
-  const addWord = (_: MouseEvent<HTMLButtonElement>) =>
-    setWords([
-      ...words,
-      { id: Date.now(), partOfSpeech: "noun", toggled: true },
-    ]);
-  const removeWord = (_: MouseEvent<HTMLButtonElement>, index: number) =>
-    setWords(words.filter((_, i) => i !== index));
-  const handleWordChange = (
-    e: ChangeEvent<HTMLSelectElement>,
-    index: number
-  ) => {
-    const updatedWords = [...words];
-    //@ts-ignore
-    updatedWords[index].partOfSpeech = e.target.value;
-    setWords(updatedWords);
-  };
-  const toggleWord = (_: ChangeEvent<HTMLInputElement>, index: number) => {
-    const updatedWords = [...words];
-    updatedWords[index].toggled = !updatedWords[index].toggled;
-    setWords(updatedWords);
-  };
+    console.log(words.filter((word: Word) => word.partOfSpeech));
+
+  // const addWord = (_: MouseEvent<HTMLButtonElement>) =>
+  //   setWords([
+  //     ...words,
+  //     { id: Date.now(), partOfSpeech: "noun", toggled: true },
+  //   ]);
+  // const removeWord = (_: MouseEvent<HTMLButtonElement>, index: number) =>
+  //   setWords(words.filter((_, i) => i !== index));
+  // const handleWordChange = (
+  //   e: ChangeEvent<HTMLSelectElement>,
+  //   index: number
+  // ) => {
+  //   const updatedWords = [...words];
+  //   //@ts-ignore
+  //   updatedWords[index].partOfSpeech = e.target.value;
+  //   setWords(updatedWords);
+  // };
+  // const toggleWord = (_: ChangeEvent<HTMLInputElement>, index: number) => {
+  //   const updatedWords = [...words];
+  //   updatedWords[index].toggled = !updatedWords[index].toggled;
+  //   setWords(updatedWords);
+  // };
 
   return (
     <Box>
@@ -94,13 +90,15 @@ export default function Inclusion() {
             key={word.id}
             partOfSpeech={word.partOfSpeech}
             index={index}
-            handleWordChange={(e) => handleWordChange(e, index)}
-            removeWord={(e) => removeWord(e, index)}
-            toggleWord={(e) => toggleWord(e, index)}
+            handleWordChange={(e) =>
+              setWord(e.target.value as PartOfSpeech, word.id)
+            }
+            removeWord={(_) => removeWord(word.id)}
+            toggleWord={(_) => toggleWord(word.id)}
           />
         ))}
       </Grid>
-      <Button w="full" onClick={(e) => addWord(e)}>
+      <Button w="full" onClick={addWord}>
         +
       </Button>
       <Button w="full" onClick={(e) => logWords(e)}>

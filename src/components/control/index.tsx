@@ -2,13 +2,15 @@ import { useState } from "react";
 import { Box, Flex, Text, Grid, Button } from "@chakra-ui/react";
 import { passwordEntropy } from "./passwordEntropy";
 import { StrengthBar } from "./strengthBar";
-import testGeneratePassword from "./passGenTest";
+import generatePassword from "@utils/passGen";
+import { useConfigStore, State } from "@store/index";
 
 export default function Control() {
   const [password, setPassword] = useState("Y0ur+P4ssw0rd+H3r3");
   const [entropy, setEntropy] = useState(passwordEntropy(password));
+  const config = useConfigStore((state: State) => state.config);
   const regenPassword = () => {
-    const newPassword = testGeneratePassword();
+    const newPassword = generatePassword(config);
     setPassword(newPassword);
     const newEntropy = passwordEntropy(newPassword);
     setEntropy(newEntropy);
