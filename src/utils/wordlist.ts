@@ -1,8 +1,6 @@
 import { PartOfSpeech } from "@components/inclusion/initials";
 
-export type Wordlist = { PartOfSpeech: string[] };
-
-export const wordlist = {
+export const wordlist: Record<PartOfSpeech, string[]> = {
   adjective: [
     "A-OK",
     "AWOL",
