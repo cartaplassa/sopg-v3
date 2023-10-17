@@ -60,28 +60,6 @@ export default function Inclusion() {
   const logWords = (_: MouseEvent<HTMLButtonElement>) =>
     console.log(words.filter((word: Word) => word.partOfSpeech));
 
-  // const addWord = (_: MouseEvent<HTMLButtonElement>) =>
-  //   setWords([
-  //     ...words,
-  //     { id: Date.now(), partOfSpeech: "noun", toggled: true },
-  //   ]);
-  // const removeWord = (_: MouseEvent<HTMLButtonElement>, index: number) =>
-  //   setWords(words.filter((_, i) => i !== index));
-  // const handleWordChange = (
-  //   e: ChangeEvent<HTMLSelectElement>,
-  //   index: number
-  // ) => {
-  //   const updatedWords = [...words];
-  //   //@ts-ignore
-  //   updatedWords[index].partOfSpeech = e.target.value;
-  //   setWords(updatedWords);
-  // };
-  // const toggleWord = (_: ChangeEvent<HTMLInputElement>, index: number) => {
-  //   const updatedWords = [...words];
-  //   updatedWords[index].toggled = !updatedWords[index].toggled;
-  //   setWords(updatedWords);
-  // };
-
   return (
     <Box>
       <Grid gridTemplateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}>
@@ -101,7 +79,7 @@ export default function Inclusion() {
       <Button w="full" onClick={addWord}>
         +
       </Button>
-      <Button w="full" onClick={(e) => logWords(e)}>
+      <Button hidden w="full" onClick={(e) => logWords(e)}>
         [DEBUG] Log
       </Button>
     </Box>

@@ -65,29 +65,6 @@ export default function Leetrules() {
 
   const logRules = (_: MouseEvent<HTMLButtonElement>) => console.log(rules);
 
-  // const addRule = (_: MouseEvent<HTMLButtonElement>) =>
-  //   setRules([
-  //     ...rules,
-  //     { id: Date.now(), ruleFrom: "", ruleTo: "", toggled: true },
-  //   ]);
-  // const removeRule = (_: MouseEvent<HTMLButtonElement>, index: number) =>
-  //   setRules(rules.filter((_, i) => i !== index));
-  // const editRuleFrom = (e: ChangeEvent<HTMLInputElement>, index: number) => {
-  //   const updatedRules = [...rules];
-  //   updatedRules[index].ruleFrom = e.target.value;
-  //   setRules(updatedRules);
-  // };
-  // const editRuleTo = (e: ChangeEvent<HTMLInputElement>, index: number) => {
-  //   const updatedRules = [...rules];
-  //   updatedRules[index].ruleTo = e.target.value;
-  //   setRules(updatedRules);
-  // };
-  // const toggleRule = (_: ChangeEvent<HTMLInputElement>, index: number) => {
-  //   const updatedRules = [...rules];
-  //   updatedRules[index].toggled = !updatedRules[index].toggled;
-  //   setRules(updatedRules);
-  // };
-
   return (
     <Box>
       <Grid gridTemplateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}>
@@ -106,7 +83,7 @@ export default function Leetrules() {
       <Button w="full" onClick={(_) => addRule()}>
         +
       </Button>
-      <Button w="full" onClick={(e) => logRules(e)}>
+      <Button hidden w="full" onClick={(e) => logRules(e)}>
         [DEBUG] Log
       </Button>
     </Box>

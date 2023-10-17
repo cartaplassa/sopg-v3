@@ -88,7 +88,6 @@ function GridRadioGroup({
 }
 
 export default function HDT() {
-  // const [table, setTable] = useState(initialHDTData);
   const table = useConfigStore((state: State) => state.config.HDT);
 
   const changeCase = useConfigStore((state: State) => state.changeCase);
@@ -204,7 +203,7 @@ export default function HDT() {
 
       {/* DEBUG */}
 
-      <Button onClick={logTable} {...gridCoordinates.logButton}>
+      <Button hidden onClick={logTable} {...gridCoordinates.logButton}>
         [DEBUG] Log
       </Button>
     </Grid>
