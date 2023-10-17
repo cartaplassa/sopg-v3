@@ -1,6 +1,6 @@
 import { useCallback } from "react";
-import { Box, Flex, Text, Grid, Button } from "@chakra-ui/react";
-import { StrengthBar } from "./strengthBar";
+import { Box, Text, Grid, Button } from "@chakra-ui/react";
+import { StrengthMeter } from "./strengthMeter";
 import {
   generatePassword,
   wordGen,
@@ -11,6 +11,9 @@ import {
 import { useConfigStore, State } from "@store/index";
 import { useImmerReducer } from "use-immer";
 import { passwordEntropy } from "@utils/passwordEntropy";
+import { IconGenerate, IconCopy } from "@icons/index";
+
+const displayPasswordAs = "kbd";
 
 export default function Control() {
   const config = useConfigStore((state: State) => state.config);
@@ -102,15 +105,15 @@ export default function Control() {
 
   return (
     <Box p="1rem">
-      <Box mb={3} boxShadow="base" rounded="md" overflow="hidden">
-        <Box h="8rem">
-          <Text as="kbd" onClick={handleHeader}>
+      <Box mb={4} boxShadow="base" rounded="md" overflow="hidden">
+        <Box p={4} fontSize="2xl" wordBreak="break-all" textAlign="left">
+          <Text as={displayPasswordAs} onClick={handleHeader}>
             {password.header}
           </Text>
           {password.words
             .map<React.ReactNode>((word, index) => (
               <Text
-                as="kbd"
+                as={displayPasswordAs}
                 key={"word-" + Date.now() + index}
                 onClick={() => handleWord(index)}
               >
@@ -120,7 +123,7 @@ export default function Control() {
             .reduce((acc, curr, index) => [
               acc,
               <Text
-                as="kbd"
+                as={displayPasswordAs}
                 key={"divider-" + Date.now() + index}
                 onClick={handleDivider}
               >
@@ -128,26 +131,17 @@ export default function Control() {
               </Text>,
               curr,
             ])}
-          <Text as="kbd" onClick={handleTail}>
+          <Text as={displayPasswordAs} onClick={handleTail}>
             {password.tail}
           </Text>
         </Box>
-        <Flex
-          justify="space-between"
-          align="center"
-          p="1rem"
-          borderTop="1px"
-          borderBottom="1px"
-          borderColor="gray.100"
-        >
-          <Text as="b">Entropy:</Text>
-          <Text as="b">{password.entropy} bits</Text>
-        </Flex>
-        <StrengthBar entropy={password.entropy} />
+        <StrengthMeter entropy={password.entropy} />
       </Box>
       <Grid templateColumns="repeat(2, 1fr)" gap={2}>
-        <Button onClick={handleRegen}>Generate</Button>
-        <Button>Copy</Button>
+        <Button leftIcon={<IconGenerate />} onClick={handleRegen}>
+          Generate
+        </Button>
+        <Button leftIcon={<IconCopy />}>Copy</Button>
       </Grid>
     </Box>
   );

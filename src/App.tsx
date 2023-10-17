@@ -24,7 +24,7 @@ function App() {
       w={["100%", "100%", 600]}
       margin="0 auto"
     >
-      <Heading>Ass Awe Pee Gee 3: Electric Boogaloo</Heading>
+      <Heading fontSize="3xl">Secure-Obscure Password Generator</Heading>
       <Control />
       <Accordion allowToggle>
         <AccordionItem>
