@@ -1,5 +1,8 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { Box, Text, Grid, Button } from "@chakra-ui/react";
+import { useImmerReducer } from "use-immer";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+
 import { StrengthMeter } from "./strengthMeter";
 import {
   generatePassword,
@@ -9,11 +12,30 @@ import {
   Password,
 } from "@utils/passGen";
 import { useConfigStore, State } from "@store/index";
-import { useImmerReducer } from "use-immer";
 import { passwordEntropy } from "@utils/passwordEntropy";
-import { IconGenerate, IconCopy } from "@icons/index";
+import { IconGenerate, IconCopy, IconSuccess } from "@icons/index";
 
 const displayPasswordAs = "kbd";
+
+function CopyButton({ valueToCopy }: { valueToCopy: string }) {
+  const [buttonText, setButtonText] = useState("Copy");
+  const [buttonIcon, setButtonIcon] = useState(<IconCopy />);
+
+  const onCopy = useCallback(() => {
+    setButtonText("Copied!");
+    setButtonIcon(<IconSuccess />);
+    setTimeout(() => {
+      setButtonText("Copy");
+      setButtonIcon(<IconCopy />);
+    }, 3000);
+  }, []);
+
+  return (
+    <CopyToClipboard onCopy={onCopy} text={valueToCopy}>
+      <Button leftIcon={buttonIcon}>{buttonText}</Button>
+    </CopyToClipboard>
+  );
+}
 
 export default function Control() {
   const config = useConfigStore((state: State) => state.config);
@@ -141,7 +163,8 @@ export default function Control() {
         <Button leftIcon={<IconGenerate />} onClick={handleRegen}>
           Generate
         </Button>
-        <Button leftIcon={<IconCopy />}>Copy</Button>
+        <CopyButton valueToCopy={password.joined} />
+        {/* <Button leftIcon={<IconCopy />}>Copy</Button> */}
       </Grid>
     </Box>
   );
