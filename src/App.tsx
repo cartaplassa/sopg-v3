@@ -12,6 +12,7 @@ import Control from "./components/control";
 import HDT from "./components/hdt-table";
 import Inclusion from "./components/inclusion";
 import Leetrules from "./components/leetrules";
+import Miscellaneous from "./components/miscellaneous";
 
 function App() {
   return (
@@ -66,6 +67,20 @@ function App() {
           </h2>
           <AccordionPanel>
             <Leetrules />
+          </AccordionPanel>
+        </AccordionItem>
+
+        <AccordionItem>
+          <h2>
+            <AccordionButton>
+              <Box as="span" flex="1" textAlign="left">
+                Miscellaneous
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+          </h2>
+          <AccordionPanel>
+            <Miscellaneous />
           </AccordionPanel>
         </AccordionItem>
       </Accordion>

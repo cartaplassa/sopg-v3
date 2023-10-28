@@ -1,6 +1,6 @@
 import { ValidTarget } from "@components/hdt-table/initials.js";
 import { wordlist } from "./wordlist.js";
-import { Config } from "@store/index.js";
+import { ConfigType } from "@store/index.js";
 import { Rule } from "@components/leetrules/initials.js";
 import { PartOfSpeech } from "@components/inclusion/initials.js";
 import { passwordEntropy } from "@utils/passwordEntropy.js";
@@ -12,10 +12,10 @@ export type Password = {
   words: string[];
   joined: string;
   entropy: number;
-  config: Config;
+  config: ConfigType;
 };
 
-const validateInput = (config: Config) => {
+const validateInput = (config: ConfigType) => {
   // At least one box is checked
   if (config.words.filter((item: any) => item.toggled === true).length === 0) {
     throw new Error("Make sure to check at least one box");
@@ -40,7 +40,10 @@ export function randomItem(iterable: any[] | string) {
   return iterable[Math.floor(Math.random() * iterable.length)];
 }
 
-export function wordGen(partOfSpeech: PartOfSpeech, config: Config): string {
+export function wordGen(
+  partOfSpeech: PartOfSpeech,
+  config: ConfigType
+): string {
   // Generate
   let word = randomItem(wordlist[partOfSpeech]);
   // Recase
@@ -60,7 +63,7 @@ export function wordGen(partOfSpeech: PartOfSpeech, config: Config): string {
       throw new Error("Generation error: invalid case");
   }
   // Leetify
-  word = leetify(word, config.leetrules);
+  word = config.HDT.leetify ? leetify(word, config.leetrules) : word;
   // Return
   return word;
 }
@@ -71,7 +74,7 @@ export const joinPassword = (password: Password) => {
   );
 };
 
-export const generatePassword = (config: Config): Password => {
+export const generatePassword = (config: ConfigType): Password => {
   try {
     validateInput(config);
 

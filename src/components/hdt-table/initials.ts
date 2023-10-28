@@ -17,6 +17,7 @@ export interface HDTData {
   };
   charPool: string;
   case: ValidCase;
+  leetify: boolean;
 }
 
 export const initialHDTData: HDTData = {
@@ -34,4 +35,5 @@ export const initialHDTData: HDTData = {
   },
   charPool: "~!@#%^&*/|\\-+=",
   case: "capitalize",
+  leetify: true,
 };

@@ -11,22 +11,29 @@ import {
   randomItem,
   Password,
 } from "@utils/passGen";
-import { useConfigStore, State } from "@store/index";
+import { useConfigStore, StateType } from "@store/index";
 import { passwordEntropy } from "@utils/passwordEntropy";
-import { IconGenerate, IconCopy, IconSuccess } from "@icons/index";
+import { Dice5, Clipboard, ClipboardCheckFill } from "@chakra-icons/bootstrap";
 
 const displayPasswordAs = "kbd";
 
+const passwordElementOnHover = {
+  bg: "gray.200",
+  border: "1px",
+  borderColor: "purple.400",
+  borderRadius: ".5rem",
+};
+
 function CopyButton({ valueToCopy }: { valueToCopy: string }) {
   const [buttonText, setButtonText] = useState("Copy");
-  const [buttonIcon, setButtonIcon] = useState(<IconCopy />);
+  const [buttonIcon, setButtonIcon] = useState(<Clipboard />);
 
   const onCopy = useCallback(() => {
     setButtonText("Copied!");
-    setButtonIcon(<IconSuccess />);
+    setButtonIcon(<ClipboardCheckFill />);
     setTimeout(() => {
       setButtonText("Copy");
-      setButtonIcon(<IconCopy />);
+      setButtonIcon(<Clipboard />);
     }, 3000);
   }, []);
 
@@ -38,7 +45,7 @@ function CopyButton({ valueToCopy }: { valueToCopy: string }) {
 }
 
 export default function Control() {
-  const config = useConfigStore((state: State) => state.config);
+  const config = useConfigStore((state: StateType) => state.config);
   const initialPassword = generatePassword(config);
 
   const passwordReducer = (
@@ -127,9 +134,25 @@ export default function Control() {
 
   return (
     <Box p="1rem">
-      <Box mb={4} boxShadow="base" rounded="md" overflow="hidden">
-        <Box p={4} fontSize="2xl" wordBreak="break-all" textAlign="left">
-          <Text as={displayPasswordAs} onClick={handleHeader}>
+      <Box
+        mb={4}
+        border="2px"
+        borderColor="gray.500"
+        rounded="md"
+        overflow="hidden"
+      >
+        <Box
+          p={4}
+          minH="5em"
+          fontSize="2xl"
+          wordBreak="break-all"
+          textAlign="left"
+        >
+          <Text
+            as={displayPasswordAs}
+            onClick={handleHeader}
+            _hover={passwordElementOnHover}
+          >
             {password.header}
           </Text>
           {password.words
@@ -138,6 +161,7 @@ export default function Control() {
                 as={displayPasswordAs}
                 key={"word-" + Date.now() + index}
                 onClick={() => handleWord(index)}
+                _hover={passwordElementOnHover}
               >
                 {word}
               </Text>
@@ -148,23 +172,27 @@ export default function Control() {
                 as={displayPasswordAs}
                 key={"divider-" + Date.now() + index}
                 onClick={handleDivider}
+                _hover={passwordElementOnHover}
               >
                 {password.divider}
               </Text>,
               curr,
             ])}
-          <Text as={displayPasswordAs} onClick={handleTail}>
+          <Text
+            as={displayPasswordAs}
+            onClick={handleTail}
+            _hover={passwordElementOnHover}
+          >
             {password.tail}
           </Text>
         </Box>
         <StrengthMeter entropy={password.entropy} />
       </Box>
       <Grid templateColumns="repeat(2, 1fr)" gap={2}>
-        <Button leftIcon={<IconGenerate />} onClick={handleRegen}>
+        <Button leftIcon={<Dice5 />} onClick={handleRegen}>
           Generate
         </Button>
         <CopyButton valueToCopy={password.joined} />
-        {/* <Button leftIcon={<IconCopy />}>Copy</Button> */}
       </Grid>
     </Box>
   );

@@ -13,7 +13,7 @@ import {
 import { MouseEvent } from "react";
 import { ValidSelection } from "./initials";
 import gridCoordinates from "./gridCoordinates";
-import { useConfigStore, State } from "@store/index";
+import { useConfigStore, StateType } from "@store/index";
 
 interface RadioInputProps extends FlexProps {
   value: string;
@@ -32,7 +32,12 @@ function RadioInput({
   return (
     <Flex gridColumn={gridColumn} gridRow={gridRow} flex={flex}>
       <Radio value={value} />
-      <Input flexGrow="1" defaultValue={inputValue} onChange={inputOnChange} />
+      <Input
+        m="0 .5rem"
+        flexGrow="1"
+        defaultValue={inputValue}
+        onChange={inputOnChange}
+      />
     </Flex>
   );
 }
@@ -88,12 +93,16 @@ function GridRadioGroup({
 }
 
 export default function HDT() {
-  const table = useConfigStore((state: State) => state.config.HDT);
+  const table = useConfigStore((state: StateType) => state.config.HDT);
 
-  const changeCase = useConfigStore((state: State) => state.changeCase);
-  const editCharPool = useConfigStore((state: State) => state.editCharPool);
-  const setHDTElement = useConfigStore((state: State) => state.setHDTElement);
-  const editHDTCustom = useConfigStore((state: State) => state.editHDTCustom);
+  const changeCase = useConfigStore((state: StateType) => state.changeCase);
+  const editCharPool = useConfigStore((state: StateType) => state.editCharPool);
+  const setHDTElement = useConfigStore(
+    (state: StateType) => state.setHDTElement
+  );
+  const editHDTCustom = useConfigStore(
+    (state: StateType) => state.editHDTCustom
+  );
 
   const logTable = (_: MouseEvent<HTMLButtonElement>) => console.log(table);
 

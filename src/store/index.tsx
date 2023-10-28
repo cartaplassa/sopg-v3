@@ -18,13 +18,13 @@ import {
 } from "@components/inclusion/initials";
 import { initialRules, Rule } from "@components/leetrules/initials";
 
-export interface Config {
+export interface ConfigType {
   HDT: HDTData;
   words: Word[];
   leetrules: Rule[];
 }
 
-type Actions = {
+type ActionsType = {
   changeCase: (value: string) => void;
   editCharPool: (value: string) => void;
   setHDTElement: (value: ValidSelection, target: ValidTarget) => void;
@@ -38,14 +38,15 @@ type Actions = {
   editRuleFrom: (value: string, index: number) => void;
   editRuleTo: (value: string, index: number) => void;
   toggleRule: (index: number) => void;
+  toggleLeetify: () => void;
 };
 
-export type State = {
-  config: Config;
-} & Actions;
+export type StateType = {
+  config: ConfigType;
+} & ActionsType;
 
 export const useConfigStore = create(
-  immer<State>((set) => ({
+  immer<StateType>((set) => ({
     config: {
       HDT: initialHDTData,
       words: initialWords,
@@ -135,6 +136,10 @@ export const useConfigStore = create(
         // console.log("DEBUG: toggling rule #" + id);
         state.config.leetrules[index].toggled =
           !state.config.leetrules[index].toggled;
+      }),
+    toggleLeetify: () =>
+      set((state) => {
+        state.config.HDT.leetify = !state.config.HDT.leetify;
       }),
   }))
 );
