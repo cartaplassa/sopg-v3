@@ -1,10 +1,5 @@
 import { VStack, Grid, Button, Switch, Text, Link } from "@chakra-ui/react";
-import {
-  Github,
-  Link45deg,
-  CloudUpload,
-  Download,
-} from "@chakra-icons/bootstrap";
+import { Github, CloudUpload, Download } from "@chakra-icons/bootstrap";
 import { StateType, useConfigStore } from "@store/index";
 
 export default function Miscellaneous() {
@@ -33,7 +28,7 @@ export default function Miscellaneous() {
       <Text>
         Copyleft,{" "}
         <Link href="https://github.com/cartaplassa/sopg-v3" isExternal>
-          <Github /> Cartaplassa <Link45deg />
+          <Github /> Cartaplassa
         </Link>
         , 2023
       </Text>
