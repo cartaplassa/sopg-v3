@@ -18,7 +18,7 @@ export type Password = {
 const validateInput = (config: ConfigType) => {
   // At least one box is checked
   if (config.words.filter((item: any) => item.toggled === true).length === 0) {
-    throw new Error("Make sure to check at least one box");
+    throw new Error("Included words list is empty");
   }
 };
 
@@ -74,7 +74,7 @@ export const joinPassword = (password: Password) => {
   );
 };
 
-export const generatePassword = (config: ConfigType): Password => {
+export const generatePassword = (config: ConfigType, toast?: any): Password => {
   try {
     validateInput(config);
 
@@ -121,13 +121,28 @@ export const generatePassword = (config: ConfigType): Password => {
     //@ts-ignore
     return password;
   } catch (err) {
+    if (toast != null) toast(err);
     console.log(err);
-    return {
-      header: "~",
-      divider: "-",
-      tail: "#",
-      //@ts-ignore
-      words: [{ adjective: "Y0ur" }, { noun: "p4$$w0rd" }, { adverb: "h3r3" }],
+    const fallbackPassword: Password = {
+      header: "",
+      divider: " ",
+      tail: "",
+      words: ["your", "password", "here"],
+      joined: "",
+      entropy: 0,
+      config: {
+        HDT: {
+          header: { custom: "", selected: "custom" },
+          divider: { custom: " ", selected: "custom" },
+          tail: { custom: "", selected: "custom" },
+          charPool: "",
+          case: "lowercase",
+          leetify: false,
+        },
+        words: [],
+        leetrules: [],
+      },
     };
+    return fallbackPassword;
   }
 };

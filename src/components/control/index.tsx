@@ -13,7 +13,14 @@ import {
 } from "@utils/passGen";
 import { useConfigStore, StateType } from "@store/index";
 import { passwordEntropy } from "@utils/passwordEntropy";
-import { Dice5, Clipboard, ClipboardCheckFill } from "@chakra-icons/bootstrap";
+import {
+  Dice5,
+  Clipboard,
+  ClipboardCheckFill,
+  ClipboardXFill,
+} from "@chakra-icons/bootstrap";
+
+import { useToast } from "@chakra-ui/react";
 
 const outputItemProps: TextProps = {
   as: "kbd",
@@ -32,8 +39,13 @@ function CopyButton({ valueToCopy }: { valueToCopy: string }) {
   const [buttonIcon, setButtonIcon] = useState(<Clipboard />);
 
   const onCopy = useCallback(() => {
-    setButtonText("Copied!");
-    setButtonIcon(<ClipboardCheckFill />);
+    if (valueToCopy) {
+      setButtonText("Copied!");
+      setButtonIcon(<ClipboardCheckFill />);
+    } else {
+      setButtonText("No value");
+      setButtonIcon(<ClipboardXFill />);
+    }
     setTimeout(() => {
       setButtonText("Copy");
       setButtonIcon(<Clipboard />);
@@ -51,73 +63,94 @@ export default function Control() {
   const config = useConfigStore((state: StateType) => state.config);
   const initialPassword = generatePassword(config);
 
+  const toast = useToast();
+  function errorMessageToast(err: Error): void {
+    toast({
+      title: "Error",
+      description: String(err),
+      status: "error",
+      position: "bottom",
+      duration: 5000,
+      isClosable: true,
+    });
+  }
+
   const passwordReducer = (
     draft: Password,
     action: { type: string; id?: number }
   ) => {
-    switch (action.type) {
-      case "regen":
-        return generatePassword(config);
-      case "word":
-        if (action.id != null) {
-          draft.words[action.id] = wordGen(
-            draft.config.words[action.id].partOfSpeech,
-            draft.config
-          );
+    if (
+      draft.config.words.filter((item: any) => item.toggled === true).length ===
+      0
+    ) {
+      errorMessageToast(new Error("Included words list is empty"));
+    } else {
+      switch (action.type) {
+        case "regen":
+          return generatePassword(config, errorMessageToast);
+        case "word":
+          if (action.id != null && draft.config.words[action.id] != null) {
+            draft.words[action.id] = wordGen(
+              draft.config.words[action.id].partOfSpeech,
+              draft.config
+            );
+            draft.joined = joinPassword(draft);
+            draft.entropy = passwordEntropy(draft.joined);
+          } else {
+            errorMessageToast(
+              new Error('Action "word": ID mismatch, fix config')
+            );
+          }
+          return draft;
+        case "header":
+          draft.header =
+            draft.config.HDT.header.selected === "random"
+              ? randomItem(draft.config.HDT.charPool)
+              : draft.header;
+          draft.divider =
+            draft.config.HDT.divider.selected === "match"
+              ? draft.header
+              : draft.divider;
+          draft.tail =
+            draft.config.HDT.tail.selected === "match"
+              ? draft.header
+              : draft.tail;
           draft.joined = joinPassword(draft);
           draft.entropy = passwordEntropy(draft.joined);
-        } else {
-          throw new Error('Action "word" w/o ID');
-        }
-        return draft;
-      case "header":
-        draft.header =
-          draft.config.HDT.header.selected === "random"
-            ? randomItem(draft.config.HDT.charPool)
-            : draft.header;
-        draft.divider =
-          draft.config.HDT.divider.selected === "match"
-            ? draft.header
-            : draft.divider;
-        draft.tail =
-          draft.config.HDT.tail.selected === "match"
-            ? draft.header
-            : draft.tail;
-        draft.joined = joinPassword(draft);
-        draft.entropy = passwordEntropy(draft.joined);
-        return draft;
-      case "divider":
-        if (draft.config.HDT.divider.selected === "random")
-          draft.divider = randomItem(draft.config.HDT.charPool);
-        else if (
-          draft.config.HDT.divider.selected === "match" &&
-          draft.config.HDT.header.selected === "random"
-        ) {
-          draft.header = randomItem(draft.config.HDT.charPool);
-          draft.divider = draft.header;
-          if (draft.config.HDT.tail.selected === "match")
-            draft.tail = draft.header;
-        }
-        draft.joined = joinPassword(draft);
-        draft.entropy = passwordEntropy(draft.joined);
-        return draft;
-      case "tail":
-        if (draft.config.HDT.tail.selected === "random")
-          draft.tail = randomItem(draft.config.HDT.charPool);
-        else if (
-          draft.config.HDT.tail.selected === "match" &&
-          draft.config.HDT.header.selected === "random"
-        ) {
-          draft.header = randomItem(draft.config.HDT.charPool);
-          if (draft.config.HDT.divider.selected === "match")
+          return draft;
+        case "divider":
+          if (draft.config.HDT.divider.selected === "random")
+            draft.divider = randomItem(draft.config.HDT.charPool);
+          else if (
+            draft.config.HDT.divider.selected === "match" &&
+            draft.config.HDT.header.selected === "random"
+          ) {
+            draft.header = randomItem(draft.config.HDT.charPool);
             draft.divider = draft.header;
-          draft.tail = draft.header;
-        }
-        draft.joined = joinPassword(draft);
-        draft.entropy = passwordEntropy(draft.joined);
-        return draft;
-      default:
-        throw new Error("Unknown action at Password");
+            if (draft.config.HDT.tail.selected === "match")
+              draft.tail = draft.header;
+          }
+          draft.joined = joinPassword(draft);
+          draft.entropy = passwordEntropy(draft.joined);
+          return draft;
+        case "tail":
+          if (draft.config.HDT.tail.selected === "random")
+            draft.tail = randomItem(draft.config.HDT.charPool);
+          else if (
+            draft.config.HDT.tail.selected === "match" &&
+            draft.config.HDT.header.selected === "random"
+          ) {
+            draft.header = randomItem(draft.config.HDT.charPool);
+            if (draft.config.HDT.divider.selected === "match")
+              draft.divider = draft.header;
+            draft.tail = draft.header;
+          }
+          draft.joined = joinPassword(draft);
+          draft.entropy = passwordEntropy(draft.joined);
+          return draft;
+        default:
+          throw new Error("Unknown action at Password");
+      }
     }
   };
 
