@@ -25,7 +25,9 @@ function App() {
       w={["100%", "100%", 600]}
       margin="0 auto"
     >
-      <Heading fontSize="3xl">Secure-Obscure Password Generator</Heading>
+      <Heading as="h1" fontSize="3xl" m="0 .5em">
+        Secure-Obscure Password Generator
+      </Heading>
       <Control />
       <Accordion allowToggle>
         <AccordionItem>
