@@ -142,11 +142,13 @@ export default function Control() {
         overflow="hidden"
       >
         <Box
+          className="output-box"
           p={4}
           minH="5em"
           fontSize="2xl"
           wordBreak="break-all"
           textAlign="left"
+          userSelect="none"
         >
           <Text
             as={displayPasswordAs}
