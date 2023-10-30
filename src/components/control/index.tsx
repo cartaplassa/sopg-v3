@@ -40,6 +40,7 @@ function CopyButton({ valueToCopy }: { valueToCopy: string }) {
 
   const onCopy = useCallback(() => {
     if (valueToCopy) {
+      console.log(valueToCopy);
       setButtonText("Copied!");
       setButtonIcon(<ClipboardCheckFill />);
     } else {
@@ -50,7 +51,7 @@ function CopyButton({ valueToCopy }: { valueToCopy: string }) {
       setButtonText("Copy");
       setButtonIcon(<Clipboard />);
     }, 3000);
-  }, []);
+  }, [valueToCopy]);
 
   return (
     <CopyToClipboard onCopy={onCopy} text={valueToCopy}>
