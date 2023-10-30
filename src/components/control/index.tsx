@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { Box, Text, Grid, Button } from "@chakra-ui/react";
+import { Box, Text, Grid, Button, TextProps } from "@chakra-ui/react";
 import { useImmerReducer } from "use-immer";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
@@ -15,13 +15,16 @@ import { useConfigStore, StateType } from "@store/index";
 import { passwordEntropy } from "@utils/passwordEntropy";
 import { Dice5, Clipboard, ClipboardCheckFill } from "@chakra-icons/bootstrap";
 
-const displayPasswordAs = "kbd";
-
-const passwordElementOnHover = {
-  bg: "gray.200",
-  border: "1px",
-  borderColor: "purple.400",
-  borderRadius: ".5rem",
+const outputItemProps: TextProps = {
+  as: "kbd",
+  m: "1px",
+  _hover: {
+    m: 0,
+    bg: "gray.200",
+    border: "1px",
+    borderColor: "purple.400",
+    borderRadius: ".5rem",
+  },
 };
 
 function CopyButton({ valueToCopy }: { valueToCopy: string }) {
@@ -150,20 +153,15 @@ export default function Control() {
           textAlign="left"
           userSelect="none"
         >
-          <Text
-            as={displayPasswordAs}
-            onClick={handleHeader}
-            _hover={passwordElementOnHover}
-          >
+          <Text onClick={handleHeader} {...outputItemProps}>
             {password.header}
           </Text>
           {password.words
             .map<React.ReactNode>((word, index) => (
               <Text
-                as={displayPasswordAs}
                 key={"word-" + Date.now() + index}
                 onClick={() => handleWord(index)}
-                _hover={passwordElementOnHover}
+                {...outputItemProps}
               >
                 {word}
               </Text>
@@ -171,23 +169,19 @@ export default function Control() {
             .reduce((acc, curr, index) => [
               acc,
               <Text
-                as={displayPasswordAs}
                 key={"divider-" + Date.now() + index}
                 onClick={handleDivider}
-                _hover={passwordElementOnHover}
+                {...outputItemProps}
               >
                 {password.divider}
               </Text>,
               curr,
             ])}
-          <Text
-            as={displayPasswordAs}
-            onClick={handleTail}
-            _hover={passwordElementOnHover}
-          >
+          <Text onClick={handleTail} {...outputItemProps}>
             {password.tail}
           </Text>
         </Box>
+
         <StrengthMeter entropy={password.entropy} />
       </Box>
       <Grid templateColumns="repeat(2, 1fr)" gap={2}>
