@@ -36,7 +36,6 @@ function IncludedWord({
         defaultValue={partOfSpeech}
         onChange={handleWordChange}
         variant="outline"
-        placeholder="Choose part of speech"
       >
         <option value="adjective">Adjective</option>
         <option value="noun">Noun</option>
