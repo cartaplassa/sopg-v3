@@ -2,6 +2,8 @@ import { VStack, Grid, Button, Switch, Text, Link } from "@chakra-ui/react";
 import { Github, CloudUpload, Download } from "@chakra-icons/bootstrap";
 import { StateType, useConfigStore } from "@store/index";
 
+import showErrorToast from "@utils/showErrorToast";
+
 export default function Miscellaneous() {
   const handleToggleLeetify = useConfigStore(
     (state: StateType) => state.toggleLeetify
@@ -25,6 +27,9 @@ export default function Miscellaneous() {
           Save config [WIP]
         </Button>
       </Grid>
+      <Button hidden onClick={() => showErrorToast("Debug toast")}>
+        [DEBUG] Show toast
+      </Button>
       <Text>
         Copyleft,{" "}
         <Link href="https://github.com/cartaplassa/sopg-v3" isExternal>

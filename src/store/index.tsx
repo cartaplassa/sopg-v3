@@ -24,6 +24,12 @@ export interface ConfigType {
   leetrules: Rule[];
 }
 
+export const initialConfig: ConfigType = {
+  HDT: initialHDTData,
+  words: initialWords,
+  leetrules: initialRules,
+};
+
 type ActionsType = {
   changeCase: (value: string) => void;
   editCharPool: (value: string) => void;
@@ -47,11 +53,7 @@ export type StateType = {
 
 export const useConfigStore = create(
   immer<StateType>((set) => ({
-    config: {
-      HDT: initialHDTData,
-      words: initialWords,
-      leetrules: initialRules,
-    },
+    config: initialConfig,
     changeCase: (value: string) =>
       set((state) => {
         state.config.HDT.case = value as ValidCase;

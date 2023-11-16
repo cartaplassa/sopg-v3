@@ -5,6 +5,8 @@ import { Rule } from "@components/leetrules/initials.js";
 import { PartOfSpeech } from "@components/inclusion/initials.js";
 import { passwordEntropy } from "@utils/passwordEntropy.js";
 
+import showErrorToast from "./showErrorToast";
+
 export type Password = {
   header: string;
   divider: string;
@@ -18,7 +20,9 @@ export type Password = {
 const validateInput = (config: ConfigType) => {
   // At least one box is checked
   if (config.words.filter((item: any) => item.toggled === true).length === 0) {
-    throw new Error("Included words list is empty");
+    const errorText = "Included words list is empty";
+    showErrorToast(errorText);
+    throw new Error(errorText);
   }
 };
 
@@ -60,7 +64,9 @@ export function wordGen(
       word = word.charAt(0) + word.slice(1).toUpperCase();
       break;
     default:
-      throw new Error("Generation error: invalid case");
+      const errorText = "Generation error: invalid case";
+      showErrorToast(errorText);
+      throw new Error(errorText);
   }
   // Leetify
   word = config.HDT.leetify ? leetify(word, config.leetrules) : word;
@@ -74,7 +80,7 @@ export const joinPassword = (password: Password) => {
   );
 };
 
-export const generatePassword = (config: ConfigType, toast?: any): Password => {
+export const generatePassword = (config: ConfigType): Password => {
   try {
     validateInput(config);
 
@@ -99,12 +105,17 @@ export const generatePassword = (config: ConfigType, toast?: any): Password => {
           password[target as ValidTarget] = randomItem(config.HDT.charPool);
           break;
         case "match":
-          if (target === "header")
-            throw new Error("Generation error: Header is set to match itself");
+          if (target === "header") {
+            const errorText = "Generation error: Header is set to match itself";
+            showErrorToast(errorText);
+            throw new Error(errorText);
+          }
           password[target as ValidTarget] = password["header"];
           break;
         default:
-          throw new Error("Generation error: Invalid HDT option");
+          const errorText = "Generation error: Invalid HDT option";
+          showErrorToast(errorText);
+          throw new Error(errorText);
       }
     });
 
@@ -121,8 +132,6 @@ export const generatePassword = (config: ConfigType, toast?: any): Password => {
     //@ts-ignore
     return password;
   } catch (err) {
-    if (toast != null) toast(err);
-    console.log(err);
     const fallbackPassword: Password = {
       header: "",
       divider: " ",

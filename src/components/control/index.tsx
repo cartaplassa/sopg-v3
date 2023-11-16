@@ -3,16 +3,6 @@ import { Box, Text, Grid, Button, TextProps } from "@chakra-ui/react";
 import { useImmerReducer } from "use-immer";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
-import { StrengthMeter } from "./strengthMeter";
-import {
-  generatePassword,
-  wordGen,
-  joinPassword,
-  randomItem,
-  Password,
-} from "@utils/passGen";
-import { useConfigStore, StateType } from "@store/index";
-import { passwordEntropy } from "@utils/passwordEntropy";
 import {
   Dice5,
   Clipboard,
@@ -20,7 +10,19 @@ import {
   ClipboardXFill,
 } from "@chakra-icons/bootstrap";
 
-import { useToast } from "@chakra-ui/react";
+import {
+  generatePassword,
+  wordGen,
+  joinPassword,
+  randomItem,
+  Password,
+} from "@utils/passGen";
+import { useConfigStore, StateType, initialConfig } from "@store/index";
+import { passwordEntropy } from "@utils/passwordEntropy";
+
+import showErrorToast from "@utils/showErrorToast";
+
+import { StrengthMeter } from "./strengthMeter";
 
 const outputItemProps: TextProps = {
   as: "kbd",
@@ -33,6 +35,10 @@ const outputItemProps: TextProps = {
     borderRadius: ".5rem",
   },
 };
+
+function hasNoToggledItems(arr: { toggled: boolean }[]) {
+  return arr.filter((item: any) => item.toggled === true).length === 0;
+}
 
 function CopyButton({ valueToCopy }: { valueToCopy: string }) {
   const [buttonText, setButtonText] = useState("Copy");
@@ -60,98 +66,105 @@ function CopyButton({ valueToCopy }: { valueToCopy: string }) {
   );
 }
 
+const initialPassword = generatePassword(initialConfig);
+
 export default function Control() {
   const config = useConfigStore((state: StateType) => state.config);
-  const initialPassword = generatePassword(config);
-
-  const toast = useToast();
-  function errorMessageToast(err: Error): void {
-    toast({
-      title: "Error",
-      description: String(err),
-      status: "error",
-      position: "bottom",
-      duration: 5000,
-      isClosable: true,
-    });
-  }
 
   const passwordReducer = (
     draft: Password,
     action: { type: string; id?: number }
   ) => {
-    if (
-      draft.config.words.filter((item: any) => item.toggled === true).length ===
-      0
-    ) {
-      errorMessageToast(new Error("Included words list is empty"));
-    } else {
-      switch (action.type) {
-        case "regen":
-          return generatePassword(config, errorMessageToast);
-        case "word":
-          if (action.id != null && draft.config.words[action.id] != null) {
-            draft.words[action.id] = wordGen(
-              draft.config.words[action.id].partOfSpeech,
-              draft.config
-            );
-            draft.joined = joinPassword(draft);
-            draft.entropy = passwordEntropy(draft.joined);
-          } else {
-            errorMessageToast(
-              new Error('Action "word": ID mismatch, fix config')
-            );
-          }
+    switch (action.type) {
+      case "regen":
+        return generatePassword(config);
+      case "word":
+        if (action.id == null) {
+          const errorText = 'Action "word" is called w/o ID';
+          showErrorToast(errorText);
           return draft;
-        case "header":
-          draft.header =
-            draft.config.HDT.header.selected === "random"
-              ? randomItem(draft.config.HDT.charPool)
-              : draft.header;
-          draft.divider =
-            draft.config.HDT.divider.selected === "match"
-              ? draft.header
-              : draft.divider;
-          draft.tail =
-            draft.config.HDT.tail.selected === "match"
-              ? draft.header
-              : draft.tail;
-          draft.joined = joinPassword(draft);
-          draft.entropy = passwordEntropy(draft.joined);
+        }
+        if (hasNoToggledItems(draft.config.words)) {
+          const errorText = "Included words list is empty";
+          showErrorToast(errorText);
           return draft;
-        case "divider":
-          if (draft.config.HDT.divider.selected === "random")
-            draft.divider = randomItem(draft.config.HDT.charPool);
-          else if (
-            draft.config.HDT.divider.selected === "match" &&
-            draft.config.HDT.header.selected === "random"
-          ) {
-            draft.header = randomItem(draft.config.HDT.charPool);
-            draft.divider = draft.header;
-            if (draft.config.HDT.tail.selected === "match")
-              draft.tail = draft.header;
-          }
-          draft.joined = joinPassword(draft);
-          draft.entropy = passwordEntropy(draft.joined);
+        }
+        if (draft.config.words[action.id] == null) {
+          const errorText = 'Action "word": ID mismatch, fix config';
+          showErrorToast(errorText);
           return draft;
-        case "tail":
-          if (draft.config.HDT.tail.selected === "random")
-            draft.tail = randomItem(draft.config.HDT.charPool);
-          else if (
-            draft.config.HDT.tail.selected === "match" &&
-            draft.config.HDT.header.selected === "random"
-          ) {
-            draft.header = randomItem(draft.config.HDT.charPool);
-            if (draft.config.HDT.divider.selected === "match")
-              draft.divider = draft.header;
+        }
+        draft.words[action.id] = wordGen(
+          draft.config.words[action.id].partOfSpeech,
+          draft.config
+        );
+        draft.joined = joinPassword(draft);
+        draft.entropy = passwordEntropy(draft.joined);
+        return draft;
+      case "header":
+        if (hasNoToggledItems(draft.config.words)) {
+          const errorText = "Included words list is empty";
+          showErrorToast(errorText);
+          return draft;
+        }
+        draft.header =
+          draft.config.HDT.header.selected === "random"
+            ? randomItem(draft.config.HDT.charPool)
+            : draft.header;
+        draft.divider =
+          draft.config.HDT.divider.selected === "match"
+            ? draft.header
+            : draft.divider;
+        draft.tail =
+          draft.config.HDT.tail.selected === "match"
+            ? draft.header
+            : draft.tail;
+        draft.joined = joinPassword(draft);
+        draft.entropy = passwordEntropy(draft.joined);
+        return draft;
+      case "divider":
+        if (hasNoToggledItems(draft.config.words)) {
+          const errorText = "Included words list is empty";
+          showErrorToast(errorText);
+          return draft;
+        }
+        if (draft.config.HDT.divider.selected === "random")
+          draft.divider = randomItem(draft.config.HDT.charPool);
+        else if (
+          draft.config.HDT.divider.selected === "match" &&
+          draft.config.HDT.header.selected === "random"
+        ) {
+          draft.header = randomItem(draft.config.HDT.charPool);
+          draft.divider = draft.header;
+          if (draft.config.HDT.tail.selected === "match")
             draft.tail = draft.header;
-          }
-          draft.joined = joinPassword(draft);
-          draft.entropy = passwordEntropy(draft.joined);
+        }
+        draft.joined = joinPassword(draft);
+        draft.entropy = passwordEntropy(draft.joined);
+        return draft;
+      case "tail":
+        if (hasNoToggledItems(draft.config.words)) {
+          const errorText = "Included words list is empty";
+          showErrorToast(errorText);
           return draft;
-        default:
-          throw new Error("Unknown action at Password");
-      }
+        }
+        if (draft.config.HDT.tail.selected === "random")
+          draft.tail = randomItem(draft.config.HDT.charPool);
+        else if (
+          draft.config.HDT.tail.selected === "match" &&
+          draft.config.HDT.header.selected === "random"
+        ) {
+          draft.header = randomItem(draft.config.HDT.charPool);
+          if (draft.config.HDT.divider.selected === "match")
+            draft.divider = draft.header;
+          draft.tail = draft.header;
+        }
+        draft.joined = joinPassword(draft);
+        draft.entropy = passwordEntropy(draft.joined);
+        return draft;
+      default:
+        const errorText = "Unknown action at Password";
+        showErrorToast(errorText);
     }
   };
 
