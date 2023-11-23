@@ -18,6 +18,7 @@ interface IncludedWordProps extends FlexProps {
   handleWordChange: React.ChangeEventHandler<HTMLSelectElement>;
   removeWord: React.MouseEventHandler<HTMLButtonElement>;
   toggleWord: React.ChangeEventHandler<HTMLInputElement>;
+  isToggled: boolean;
 }
 
 function IncludedWord({
@@ -27,11 +28,12 @@ function IncludedWord({
   handleWordChange,
   removeWord,
   toggleWord,
+  isToggled,
 }: IncludedWordProps) {
   return (
     <Flex w="100%" align="center">
       {/* <Text>{index + 1}</Text> */}
-      <Switch mr=".5rem" onChange={toggleWord} defaultChecked />
+      <Switch mr=".5rem" onChange={toggleWord} isChecked={isToggled} />
       <Select
         defaultValue={partOfSpeech}
         onChange={handleWordChange}
@@ -73,6 +75,7 @@ export default function Inclusion() {
             }
             removeWord={(_) => removeWord(word.id)}
             toggleWord={(_) => toggleWord(word.id)}
+            isToggled={word.isToggled}
           />
         ))}
       </VStack>

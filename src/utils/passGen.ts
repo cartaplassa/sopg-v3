@@ -19,7 +19,9 @@ export type Password = {
 
 const validateInput = (config: ConfigType) => {
   // At least one box is checked
-  if (config.words.filter((item: any) => item.toggled === true).length === 0) {
+  if (
+    config.words.filter((item: any) => item.isToggled === true).length === 0
+  ) {
     const errorText = "Included words list is empty";
     showErrorToast(errorText);
     throw new Error(errorText);
@@ -29,7 +31,7 @@ const validateInput = (config: ConfigType) => {
 function leetify(str: string, leetrules: Rule[]) {
   let newStr = str;
   for (const leetrule of leetrules) {
-    if (leetrule.toggled)
+    if (leetrule.isToggled)
       leetrule.ruleFrom
         .replaceAll(" ", "")
         .split(",")
@@ -121,7 +123,7 @@ export const generatePassword = (config: ConfigType): Password => {
 
     password.words = [];
     config.words.forEach((word) => {
-      if (word.toggled) {
+      if (word.isToggled) {
         password.words.push(wordGen(word.partOfSpeech, config));
       }
     });

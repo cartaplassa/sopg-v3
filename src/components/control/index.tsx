@@ -4,10 +4,10 @@ import { useImmerReducer } from "use-immer";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import {
-  Dice5,
-  Clipboard,
-  ClipboardCheckFill,
-  ClipboardXFill,
+  Dice5 as Dice5Icon,
+  Clipboard as ClipboardIcon,
+  ClipboardCheckFill as ClipboardCheckFillIcon,
+  ClipboardXFill as ClipboardXFillIcon,
 } from "@chakra-icons/bootstrap";
 
 import {
@@ -36,26 +36,26 @@ const outputItemProps: TextProps = {
   },
 };
 
-function hasNoToggledItems(arr: { toggled: boolean }[]) {
-  return arr.filter((item: any) => item.toggled === true).length === 0;
+function hasNoToggledItems(arr: { isToggled: boolean }[]) {
+  return arr.filter((item: any) => item.isToggled === true).length === 0;
 }
 
 function CopyButton({ valueToCopy }: { valueToCopy: string }) {
   const [buttonText, setButtonText] = useState("Copy");
-  const [buttonIcon, setButtonIcon] = useState(<Clipboard />);
+  const [buttonIcon, setButtonIcon] = useState(<ClipboardIcon />);
 
   const onCopy = useCallback(() => {
     if (valueToCopy) {
       console.log(valueToCopy);
       setButtonText("Copied!");
-      setButtonIcon(<ClipboardCheckFill />);
+      setButtonIcon(<ClipboardCheckFillIcon />);
     } else {
       setButtonText("No value");
-      setButtonIcon(<ClipboardXFill />);
+      setButtonIcon(<ClipboardXFillIcon />);
     }
     setTimeout(() => {
       setButtonText("Copy");
-      setButtonIcon(<Clipboard />);
+      setButtonIcon(<ClipboardIcon />);
     }, 3000);
   }, [valueToCopy]);
 
@@ -232,7 +232,7 @@ export default function Control() {
         <StrengthMeter entropy={password.entropy} />
       </Box>
       <Grid templateColumns="repeat(2, 1fr)" gap={2}>
-        <Button leftIcon={<Dice5 />} onClick={handleRegen}>
+        <Button leftIcon={<Dice5Icon />} onClick={handleRegen}>
           Generate
         </Button>
         <CopyButton valueToCopy={password.joined} />

@@ -20,6 +20,7 @@ interface LeetruleProps extends FlexProps {
   editRuleTo: React.ChangeEventHandler<HTMLInputElement>;
   removeRule: React.MouseEventHandler<HTMLButtonElement>;
   toggleRule: React.ChangeEventHandler<HTMLInputElement>;
+  isToggled: boolean;
 }
 
 function Leetrule({
@@ -29,10 +30,11 @@ function Leetrule({
   editRuleTo,
   removeRule,
   toggleRule,
+  isToggled,
 }: LeetruleProps) {
   return (
     <Flex className="leetrule" align="center">
-      <Switch mr=".5rem" onChange={toggleRule} defaultChecked />
+      <Switch mr=".5rem" onChange={toggleRule} isChecked={isToggled} />
       <Input
         defaultValue={ruleFrom}
         onChange={editRuleFrom}
@@ -80,6 +82,7 @@ export default function Leetrules() {
             editRuleTo={(e) => editRuleTo(e.target.value, rule.id)}
             removeRule={(_) => removeRule(rule.id)}
             toggleRule={(_) => toggleRule(rule.id)}
+            isToggled={rule.isToggled}
           />
         ))}
       </Grid>

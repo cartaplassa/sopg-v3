@@ -10,13 +10,15 @@ import {
   ValidSelection,
   ValidCase,
   ValidTarget,
+  readHDTData,
 } from "@components/hdt-table/initials";
 import {
   initialWords,
   Word,
   PartOfSpeech,
+  readWord,
 } from "@components/inclusion/initials";
-import { initialRules, Rule } from "@components/leetrules/initials";
+import { initialRules, readRule, Rule } from "@components/leetrules/initials";
 
 export interface ConfigType {
   HDT: HDTData;
@@ -31,7 +33,8 @@ export const initialConfig: ConfigType = {
 };
 
 type ActionsType = {
-  changeCase: (value: string) => void;
+  changeCase: (value: ValidCase) => void;
+  setConfig: (value: ConfigType) => void;
   editCharPool: (value: string) => void;
   setHDTElement: (value: ValidSelection, target: ValidTarget) => void;
   editHDTCustom: (value: string, target: ValidTarget) => void;
@@ -47,6 +50,65 @@ type ActionsType = {
   toggleLeetify: () => void;
 };
 
+export function isError(obj: object): obj is Error {
+  return Object.prototype.toString.call(obj) === "[object Error]";
+}
+
+export function readConfig(input: unknown): ConfigType | Error {
+  if (input == null) return new Error("Config parser: nullish input");
+  if (typeof input !== "object")
+    return new Error("Config parser: not an object");
+  const output: ConfigType = {
+    HDT: {
+      header: {
+        custom: "",
+        selected: "custom",
+      },
+      divider: {
+        custom: "",
+        selected: "custom",
+      },
+      tail: {
+        custom: "",
+        selected: "custom",
+      },
+      charPool: "",
+      case: "lowercase",
+      leetify: false,
+    },
+    words: [],
+    leetrules: [],
+  };
+
+  const parsed = readHDTData((input as any)["HDT"]);
+  if (isError(parsed)) return parsed;
+  else output.HDT = parsed;
+
+  if ((input as any)["words"].constructor === Array) {
+    for (const word in (input as any)["words"]) {
+      const parsed = readWord((input as any)["words"][word]);
+      if (!isError(parsed)) output.words.push(parsed);
+      // Those errors will be ignored for now at least
+    }
+    // If words is empty ..?
+  } else {
+    return new Error("Config parser: 'words' is not an array");
+  }
+
+  if ((input as any)["leetrules"].constructor === Array) {
+    for (const rule in (input as any)["leetrules"]) {
+      const parsed = readRule((input as any)["leetrules"][rule]);
+      if (!isError(parsed)) output.leetrules.push(parsed);
+      // Those errors will be ignored for now at least
+    }
+    //TODO: If rules is empty ..?
+  } else {
+    return new Error("Config parser: 'leetrules' is not an array");
+  }
+
+  return output;
+}
+
 export type StateType = {
   config: ConfigType;
 } & ActionsType;
@@ -54,9 +116,13 @@ export type StateType = {
 export const useConfigStore = create(
   immer<StateType>((set) => ({
     config: initialConfig,
-    changeCase: (value: string) =>
+    setConfig: (value: ConfigType) =>
       set((state) => {
-        state.config.HDT.case = value as ValidCase;
+        state.config = value;
+      }),
+    changeCase: (value: ValidCase) =>
+      set((state) => {
+        state.config.HDT.case = value;
       }),
     editCharPool: (value: string) =>
       set((state) => {
@@ -76,7 +142,7 @@ export const useConfigStore = create(
           void state.config.words.push({
             id: Date.now(),
             partOfSpeech: "noun",
-            toggled: true,
+            isToggled: true,
           })
       ),
     removeWord: (id: number) =>
@@ -98,7 +164,8 @@ export const useConfigStore = create(
         // console.log("DEBUG: toggling word w/ ID:" + id);
         const index = state.config.words.findIndex((word) => word.id == id);
         // console.log("DEBUG: toggling word #" + index);
-        state.config.words[index].toggled = !state.config.words[index].toggled;
+        state.config.words[index].isToggled =
+          !state.config.words[index].isToggled;
       }),
     addRule: () =>
       set(
@@ -107,7 +174,7 @@ export const useConfigStore = create(
             id: Date.now(),
             ruleFrom: "",
             ruleTo: "",
-            toggled: true,
+            isToggled: true,
           })
       ),
     removeRule: (id: number) =>
@@ -136,8 +203,8 @@ export const useConfigStore = create(
         // console.log("DEBUG: toggling rule w/ ID:" + id);
         const index = state.config.leetrules.findIndex((rule) => rule.id == id);
         // console.log("DEBUG: toggling rule #" + id);
-        state.config.leetrules[index].toggled =
-          !state.config.leetrules[index].toggled;
+        state.config.leetrules[index].isToggled =
+          !state.config.leetrules[index].isToggled;
       }),
     toggleLeetify: () =>
       set((state) => {

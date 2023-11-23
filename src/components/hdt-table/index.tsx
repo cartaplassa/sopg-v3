@@ -11,7 +11,7 @@ import {
   GridProps,
 } from "@chakra-ui/react";
 import { MouseEvent } from "react";
-import { ValidSelection } from "./initials";
+import { ValidCase, ValidSelection } from "./initials";
 import gridCoordinates from "./gridCoordinates";
 import { useConfigStore, StateType } from "@store/index";
 
@@ -35,7 +35,7 @@ function RadioInput({
       <Input
         m="0 .5rem"
         flexGrow="1"
-        defaultValue={inputValue}
+        value={inputValue}
         onChange={inputOnChange}
       />
     </Flex>
@@ -44,7 +44,7 @@ function RadioInput({
 
 function FlexRadioGroup({
   children,
-  defaultValue,
+  value,
   onChange,
   gridColumn,
   gridRow,
@@ -52,7 +52,7 @@ function FlexRadioGroup({
 }: RadioGroupProps & FlexProps) {
   return (
     <RadioGroup
-      defaultValue={defaultValue}
+      value={value}
       onChange={onChange}
       gridColumn={gridColumn}
       gridRow={gridRow}
@@ -66,7 +66,7 @@ function FlexRadioGroup({
 
 function GridRadioGroup({
   children,
-  defaultValue,
+  value,
   onChange,
   gridColumn,
   gridRow,
@@ -75,7 +75,7 @@ function GridRadioGroup({
 }: RadioGroupProps & GridProps) {
   return (
     <RadioGroup
-      defaultValue={defaultValue}
+      value={value}
       onChange={onChange}
       gridColumn={gridColumn}
       gridRow={gridRow}
@@ -121,7 +121,7 @@ export default function HDT() {
         {...gridCoordinates.charPool.input}
         placeholder="Char pool"
         alt="Char pool"
-        defaultValue={table.charPool}
+        value={table.charPool}
         onChange={(e) => editCharPool(e.target.value)}
       />
       {/* HEADER */}
@@ -131,7 +131,7 @@ export default function HDT() {
       <FlexRadioGroup
         {...gridCoordinates.header.flexRadioGroup}
         direction={["column", "row", "row"]}
-        defaultValue="custom"
+        value={table.header.selected}
         onChange={(value) => setHDTElement(value as ValidSelection, "header")}
       >
         <RadioInput
@@ -156,7 +156,7 @@ export default function HDT() {
       <FlexRadioGroup
         {...gridCoordinates.divider.flexRadioGroup}
         direction={["column", "row", "row"]}
-        defaultValue="custom"
+        value={table.divider.selected}
         onChange={(value) => setHDTElement(value as ValidSelection, "divider")}
       >
         <RadioInput
@@ -179,7 +179,7 @@ export default function HDT() {
       <FlexRadioGroup
         {...gridCoordinates.tail.flexRadioGroup}
         direction={["column", "row", "row"]}
-        defaultValue="custom"
+        value={table.tail.selected}
         onChange={(value) => setHDTElement(value as ValidSelection, "tail")}
       >
         <RadioInput
@@ -200,8 +200,8 @@ export default function HDT() {
         Case
       </Heading>
       <GridRadioGroup
-        defaultValue="capitalize"
-        onChange={(value) => changeCase(value as string)}
+        value={table.case}
+        onChange={(value) => changeCase(value as ValidCase)}
         {...gridCoordinates.case.gridRadioGroup}
       >
         <Radio value="lowercase">Lowercase</Radio>
