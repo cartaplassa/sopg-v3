@@ -13,13 +13,7 @@ import {
   Download as DownloadIcon,
 } from "@chakra-icons/bootstrap";
 
-import {
-  ConfigType,
-  StateType,
-  isError,
-  readConfig,
-  useConfigStore,
-} from "@store/index";
+import { StateType, isError, readConfig, useConfigStore } from "@store/index";
 
 import showErrorToast from "@utils/showErrorToast";
 import { ChangeEvent } from "react";
@@ -90,7 +84,7 @@ export default function Miscellaneous() {
       <Grid
         w="100%"
         gap=".5rem"
-        gridTemplateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}
+        gridTemplateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" }}
       >
         <Box flexGrow={1}>
           <label>

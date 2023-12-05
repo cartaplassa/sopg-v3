@@ -22,7 +22,7 @@ function App() {
       boxShadow="dark-lg"
       rounded="md"
       pt="2rem"
-      w={["100%", "100%", 600]}
+      w={{ base: "100%", sm: "100%", md: 600 }}
       margin="0 auto"
     >
       <Heading as="h1" fontSize="3xl" m="0 .5em">

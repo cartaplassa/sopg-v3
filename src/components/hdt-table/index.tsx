@@ -130,7 +130,7 @@ export default function HDT() {
       </Heading>
       <FlexRadioGroup
         {...gridCoordinates.header.flexRadioGroup}
-        direction={["column", "row", "row"]}
+        direction={{ base: "column", sm: "row", md: "row" }}
         value={table.header.selected}
         onChange={(value) => setHDTElement(value as ValidSelection, "header")}
       >
@@ -155,7 +155,7 @@ export default function HDT() {
       </Heading>
       <FlexRadioGroup
         {...gridCoordinates.divider.flexRadioGroup}
-        direction={["column", "row", "row"]}
+        direction={{ base: "column", sm: "row", md: "row" }}
         value={table.divider.selected}
         onChange={(value) => setHDTElement(value as ValidSelection, "divider")}
       >
@@ -178,7 +178,7 @@ export default function HDT() {
       </Heading>
       <FlexRadioGroup
         {...gridCoordinates.tail.flexRadioGroup}
-        direction={["column", "row", "row"]}
+        direction={{ base: "column", sm: "row", md: "row" }}
         value={table.tail.selected}
         onChange={(value) => setHDTElement(value as ValidSelection, "tail")}
       >
