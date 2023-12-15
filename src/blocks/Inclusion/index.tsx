@@ -23,7 +23,7 @@ interface IncludedWordProps extends FlexProps {
 
 function IncludedWord({
   partOfSpeech,
-  //@ts-ignore
+  //@ts-ignore unused
   index,
   handleWordChange,
   removeWord,
@@ -50,7 +50,6 @@ function IncludedWord({
 }
 
 export default function Inclusion() {
-  // const [words, setWords] = useState(initialWords);
   const words = useConfigStore((state: StateType) => state.config.words);
 
   const addWord = useConfigStore((state: StateType) => state.addWord);

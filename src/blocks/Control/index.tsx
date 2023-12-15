@@ -22,48 +22,12 @@ import { passwordEntropy } from "@utils/passwordEntropy";
 
 import showErrorToast from "@utils/showErrorToast";
 
-import { StrengthMeter } from "./strengthMeter";
-
-const outputItemProps: TextProps = {
-  as: "kbd",
-  m: "1px",
-  _hover: {
-    m: 0,
-    bg: "gray.200",
-    border: "1px",
-    borderColor: "purple.400",
-    borderRadius: ".5rem",
-  },
-};
+import { StrengthMeter } from "@components/StrengthMeter";
+import CopyButton from "@components/buttons/CopyButton";
+import OutputItem from "@components/OutputItem";
 
 function hasNoToggledItems(arr: { isToggled: boolean }[]) {
   return arr.filter((item: any) => item.isToggled === true).length === 0;
-}
-
-function CopyButton({ valueToCopy }: { valueToCopy: string }) {
-  const [buttonText, setButtonText] = useState("Copy");
-  const [buttonIcon, setButtonIcon] = useState(<ClipboardIcon />);
-
-  const onCopy = useCallback(() => {
-    if (valueToCopy) {
-      console.log(valueToCopy);
-      setButtonText("Copied!");
-      setButtonIcon(<ClipboardCheckFillIcon />);
-    } else {
-      setButtonText("No value");
-      setButtonIcon(<ClipboardXFillIcon />);
-    }
-    setTimeout(() => {
-      setButtonText("Copy");
-      setButtonIcon(<ClipboardIcon />);
-    }, 3000);
-  }, [valueToCopy]);
-
-  return (
-    <CopyToClipboard onCopy={onCopy} text={valueToCopy}>
-      <Button leftIcon={buttonIcon}>{buttonText}</Button>
-    </CopyToClipboard>
-  );
 }
 
 const initialPassword = generatePassword(initialConfig);
@@ -200,33 +164,27 @@ export default function Control() {
           textAlign="left"
           userSelect="none"
         >
-          <Text onClick={handleHeader} {...outputItemProps}>
-            {password.header}
-          </Text>
+          <OutputItem onClick={handleHeader}>{password.header}</OutputItem>
           {password.words
             .map<React.ReactNode>((word, index) => (
-              <Text
+              <OutputItem
                 key={"word-" + Date.now() + index}
                 onClick={() => handleWord(index)}
-                {...outputItemProps}
               >
                 {word}
-              </Text>
+              </OutputItem>
             ))
             .reduce((acc, curr, index) => [
               acc,
-              <Text
+              <OutputItem
                 key={"divider-" + Date.now() + index}
                 onClick={handleDivider}
-                {...outputItemProps}
               >
                 {password.divider}
-              </Text>,
+              </OutputItem>,
               curr,
             ])}
-          <Text onClick={handleTail} {...outputItemProps}>
-            {password.tail}
-          </Text>
+          <OutputItem onClick={handleTail}>{password.tail}</OutputItem>
         </Box>
 
         <StrengthMeter entropy={password.entropy} />

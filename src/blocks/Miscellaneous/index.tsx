@@ -1,11 +1,12 @@
 import {
+  chakra,
   VStack,
   Grid,
   Button,
   Switch,
   Text,
   Link,
-  Box,
+  useColorMode,
 } from "@chakra-ui/react";
 import {
   Github as GithubIcon,
@@ -17,6 +18,7 @@ import { StateType, isError, readConfig, useConfigStore } from "@store/index";
 
 import showErrorToast from "@utils/showErrorToast";
 import { ChangeEvent } from "react";
+import UploadButton from "@components/buttons/UploadButton";
 
 interface HTMLFileInputElement extends HTMLInputElement {
   files: FileList;
@@ -52,6 +54,8 @@ export default function Miscellaneous() {
   const config = useConfigStore((state: StateType) => state.config);
   const setConfig = useConfigStore((state: StateType) => state.setConfig);
 
+  const { colorMode, toggleColorMode } = useColorMode();
+
   const downloadConfig = (_: React.MouseEvent<HTMLElement>) => {
     downloadFile({
       data: JSON.stringify(config),
@@ -77,34 +81,31 @@ export default function Miscellaneous() {
 
   return (
     <VStack>
-      <Switch onChange={handleToggleLeetify} isChecked={config.HDT.leetify}>
-        Toggle leetrules
-      </Switch>
-      <Switch>Dark mode [WIP]</Switch>
+      <chakra.label>
+        <Switch onChange={handleToggleLeetify} isChecked={config.HDT.leetify} />
+        <Text ml=".5em" as="span">
+          Toggle leetrules
+        </Text>
+      </chakra.label>
+      <chakra.label>
+        <Switch onChange={toggleColorMode} isChecked={colorMode === "dark"} />
+        <Text ml=".5em" as="span">
+          Dark mode
+        </Text>
+      </chakra.label>
       <Grid
         w="100%"
         gap=".5rem"
         gridTemplateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" }}
       >
-        <Box flexGrow={1}>
-          <label>
-            <input
-              style={{ display: "none" }}
-              type="file"
-              onChange={uploadConfig}
-            />
-            <Button
-              as="span"
-              w="100%"
-              leftIcon={<CloudUploadIcon />}
-              // onClick={uploadConfig}
-            >
-              Load config
-            </Button>
-          </label>
-        </Box>
+        <UploadButton
+          leftIcon={<CloudUploadIcon />}
+          onChange={uploadConfig}
+          flexGrow={1}
+        >
+          Load config
+        </UploadButton>
         <Button
-          as="span"
           leftIcon={<DownloadIcon />}
           onClick={downloadConfig}
           flexGrow={1}

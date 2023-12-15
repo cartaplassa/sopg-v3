@@ -1,24 +1,17 @@
 import "./App.css";
-import {
-  Box,
-  Heading,
-  Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionIcon,
-  AccordionPanel,
-} from "@chakra-ui/react";
-import Control from "./components/control";
-import HDT from "./components/hdt-table";
-import Inclusion from "./components/inclusion";
-import Leetrules from "./components/leetrules";
-import Miscellaneous from "./components/miscellaneous";
+import { Box, Heading, Accordion } from "@chakra-ui/react";
+import Control from "@blocks/Control";
+import HDT from "@blocks/HDTTable";
+import Inclusion from "@blocks/Inclusion";
+import Leetrules from "@blocks/Leetrules";
+import Miscellaneous from "@blocks/Miscellaneous";
+import AccordionBlock from "@components/AccordionBlock";
 
 function App() {
   return (
     <Box
       className="app__inner"
-      bg="white"
+      // bg="white"
       boxShadow="dark-lg"
       rounded="md"
       pt="2rem"
@@ -30,61 +23,18 @@ function App() {
       </Heading>
       <Control />
       <Accordion allowToggle>
-        <AccordionItem>
-          <h2>
-            <AccordionButton>
-              <Box as="span" flex="1" textAlign="left">
-                Division
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-          </h2>
-          <AccordionPanel>
-            <HDT />
-          </AccordionPanel>
-        </AccordionItem>
-
-        <AccordionItem>
-          <h2>
-            <AccordionButton>
-              <Box as="span" flex="1" textAlign="left">
-                Inclusion
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-          </h2>
-          <AccordionPanel>
-            <Inclusion />
-          </AccordionPanel>
-        </AccordionItem>
-
-        <AccordionItem>
-          <h2>
-            <AccordionButton>
-              <Box as="span" flex="1" textAlign="left">
-                Leetrules
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-          </h2>
-          <AccordionPanel>
-            <Leetrules />
-          </AccordionPanel>
-        </AccordionItem>
-
-        <AccordionItem>
-          <h2>
-            <AccordionButton>
-              <Box as="span" flex="1" textAlign="left">
-                Miscellaneous
-              </Box>
-              <AccordionIcon />
-            </AccordionButton>
-          </h2>
-          <AccordionPanel>
-            <Miscellaneous />
-          </AccordionPanel>
-        </AccordionItem>
+        <AccordionBlock title="Division">
+          <HDT />
+        </AccordionBlock>
+        <AccordionBlock title="Inclusion">
+          <Inclusion />
+        </AccordionBlock>
+        <AccordionBlock title="Leetrules">
+          <Leetrules />
+        </AccordionBlock>
+        <AccordionBlock title="Miscellaneous">
+          <Miscellaneous />
+        </AccordionBlock>
       </Accordion>
     </Box>
   );

@@ -11,14 +11,14 @@ import {
   ValidCase,
   ValidTarget,
   readHDTData,
-} from "@components/hdt-table/initials";
+} from "@blocks/HDTTable/initials";
 import {
   initialWords,
   Word,
   PartOfSpeech,
   readWord,
-} from "@components/inclusion/initials";
-import { initialRules, readRule, Rule } from "@components/leetrules/initials";
+} from "@blocks/Inclusion/initials";
+import { initialRules, readRule, Rule } from "@blocks/Leetrules/initials";
 
 export interface ConfigType {
   HDT: HDTData;
