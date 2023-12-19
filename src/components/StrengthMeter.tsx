@@ -23,7 +23,7 @@ const stretchedBoxProps: BoxProps = {
 const scaleFlexProps: FlexProps = {
   justify: "center",
   align: "center",
-  p: "1rem",
+  p: "1em",
   borderTop: "1px",
   borderBottom: "1px",
   borderColor: "gray.100",
@@ -76,7 +76,7 @@ function strengthLevel(entropy: number) {
 }
 
 function Bar({ color }: BoxProps) {
-  return <Box w="0.75rem" h="2rem" bg={color} border="1px" />;
+  return <Box w="0.75em" h="2em" bg={color} border="1px" />;
 }
 
 export function BarStack({
@@ -113,7 +113,7 @@ export function StrengthMeter({ entropy }: { entropy: number }) {
       position="relative"
       display="block"
       w="100%"
-      minH="4rem"
+      minH="4em"
     >
       <Box
         className="strength-meter__scale"

@@ -33,18 +33,18 @@ function IncludedWord({
   return (
     <Flex w="100%" align="center">
       {/* <Text>{index + 1}</Text> */}
-      <Switch mr=".5rem" onChange={toggleWord} isChecked={isToggled} />
+      <Switch mr=".5em" onChange={toggleWord} isChecked={isToggled} />
       <Select
         defaultValue={partOfSpeech}
         onChange={handleWordChange}
-        variant="outline"
+        // variant="outline"
       >
         <option value="adjective">Adjective</option>
         <option value="noun">Noun</option>
         <option value="verb">Verb</option>
         <option value="adverb">Adverb</option>
       </Select>
-      <CloseButton onClick={removeWord} />
+      <CloseButton ml=".5em" onClick={removeWord} />
     </Flex>
   );
 }
@@ -78,7 +78,7 @@ export default function Inclusion() {
           />
         ))}
       </VStack>
-      <Button mt=".5rem" w="full" onClick={addWord}>
+      <Button mt=".5em" w="full" onClick={addWord}>
         +
       </Button>
       <Button hidden w="full" onClick={(e) => logWords(e)}>

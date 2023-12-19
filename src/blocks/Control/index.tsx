@@ -1,14 +1,8 @@
-import { useCallback, useState } from "react";
-import { Box, Text, Grid, Button, TextProps } from "@chakra-ui/react";
+import { useCallback } from "react";
+import { Box, Grid, Button } from "@chakra-ui/react";
 import { useImmerReducer } from "use-immer";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 
-import {
-  Dice5 as Dice5Icon,
-  Clipboard as ClipboardIcon,
-  ClipboardCheckFill as ClipboardCheckFillIcon,
-  ClipboardXFill as ClipboardXFillIcon,
-} from "@chakra-icons/bootstrap";
+import { Dice5 as Dice5Icon } from "@chakra-icons/bootstrap";
 
 import {
   generatePassword,
@@ -147,7 +141,7 @@ export default function Control() {
   const handleRegen = useCallback(() => dispatch({ type: "regen" }), []);
 
   return (
-    <Box p="1rem">
+    <Box p="1em">
       <Box
         mb={4}
         border="2px"

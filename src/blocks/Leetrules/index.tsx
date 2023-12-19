@@ -34,7 +34,7 @@ function Leetrule({
 }: LeetruleProps) {
   return (
     <Flex className="leetrule" align="center">
-      <Switch mr=".5rem" onChange={toggleRule} isChecked={isToggled} />
+      <Switch mr=".5em" onChange={toggleRule} isChecked={isToggled} />
       <Input
         defaultValue={ruleFrom}
         onChange={editRuleFrom}
@@ -42,7 +42,7 @@ function Leetrule({
         htmlSize={1}
         flexGrow="7"
       />
-      <Text m="0 .5rem">⟶</Text>
+      <Text m="0 .5em">⟶</Text>
       <Input
         defaultValue={ruleTo}
         onChange={editRuleTo}
@@ -50,7 +50,7 @@ function Leetrule({
         htmlSize={1}
         flexGrow="2"
       />
-      <CloseButton onClick={removeRule} />
+      <CloseButton ml=".5em" onClick={removeRule} />
     </Flex>
   );
 }
@@ -70,8 +70,8 @@ export default function Leetrules() {
   return (
     <Box>
       <Grid
-        gap=".5rem"
-        gridTemplateColumns={{base: "repeat(1, 1fr)", sm: "repeat(2, 1fr)"}}
+        gap=".5em"
+        gridTemplateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" }}
       >
         {rules.map((rule: Rule) => (
           <Leetrule
@@ -86,7 +86,7 @@ export default function Leetrules() {
           />
         ))}
       </Grid>
-      <Button mt=".5rem" w="full" onClick={(_) => addRule()}>
+      <Button mt=".5em" w="full" onClick={(_) => addRule()}>
         +
       </Button>
       <Button hidden w="full" onClick={(e) => logRules(e)}>

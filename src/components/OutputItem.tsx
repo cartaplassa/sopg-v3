@@ -9,7 +9,7 @@ const outputItemProps: TextProps = {
     bg: "gray.200",
     border: "1px",
     borderColor: "purple.400",
-    borderRadius: ".5rem",
+    borderRadius: ".5em",
   },
 };
 

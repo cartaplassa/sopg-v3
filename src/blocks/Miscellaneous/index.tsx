@@ -95,7 +95,7 @@ export default function Miscellaneous() {
       </chakra.label>
       <Grid
         w="100%"
-        gap=".5rem"
+        gap=".5em"
         gridTemplateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" }}
       >
         <UploadButton
