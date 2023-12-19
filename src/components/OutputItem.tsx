@@ -1,30 +1,24 @@
 import { Text, TextProps } from "@chakra-ui/react";
-import { ReactNode } from "react";
+interface OutputItemProps extends TextProps {
+  value: string;
+}
 
-const outputItemProps: TextProps = {
-  as: "kbd",
-  m: "1px",
+const style = {
+  border: "2px solid transparent",
+  borderRadius: "md",
+
+  fontFamily: "serif",
+  fontWeight: "normal",
+
   _hover: {
-    m: 0,
-    bg: "gray.200",
-    border: "1px",
-    borderColor: "purple.400",
-    borderRadius: ".5em",
+    borderColor: "primary",
   },
 };
 
-interface OutputItemProps extends TextProps {
-  children: ReactNode;
-}
-
-export default function OutputItem({
-  border = "2px",
-  borderRadius = ".5em",
-  children,
-}: OutputItemProps) {
+export default function OutputItem({ value, ...props }: OutputItemProps) {
   return (
-    <Text as="kbd" m={border} _hover={{ m: 0, border, borderRadius }}>
-      {children}
+    <Text as="samp" hidden={!value} sx={style} {...props}>
+      {value}
     </Text>
   );
 }

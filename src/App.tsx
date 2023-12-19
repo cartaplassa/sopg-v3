@@ -12,8 +12,6 @@ function App() {
 
   return (
     <Box
-      boxShadow="dark-lg"
-      rounded="md"
       pt="2em"
       w={{ base: "100%", sm: "100%", md: 600 }}
       margin="0 auto"

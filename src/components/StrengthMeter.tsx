@@ -8,6 +8,7 @@ import {
   TextProps,
   Tag,
   Tooltip,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 const fullScaleValue = 240;
@@ -107,6 +108,10 @@ export function StrengthText(props: { entropy: number } & TextProps) {
 }
 
 export function StrengthMeter({ entropy }: { entropy: number }) {
+  const scaleFillerBg = useColorModeValue(
+    strengthRating[strengthLevel(entropy)].color,
+    "primary"
+  );
   return (
     <Box
       className="strength-meter"
@@ -119,7 +124,7 @@ export function StrengthMeter({ entropy }: { entropy: number }) {
         className="strength-meter__scale"
         {...stretchedBoxProps}
         w={scaleValue(entropy)}
-        backgroundColor={strengthRating[strengthLevel(entropy)].color}
+        backgroundColor={scaleFillerBg} // SCALE COLOR
       />
       <Flex
         className="strength-meter__outer"
@@ -128,26 +133,16 @@ export function StrengthMeter({ entropy }: { entropy: number }) {
         zIndex={1}
         {...scaleFlexProps}
       >
-        <Flex
-          className="strength-meter__inner"
-          border="1px"
-          borderColor={borderColor}
-          borderRadius="1em"
-          bg="white"
-          // justify="center"
-          align="center"
-        >
-          <Tooltip hasArrow label="TODO: entropy ambiguity disclaimer">
+        <Flex className="strength-meter__inner" align="center">
+          <Tooltip
+            // hasArrow
+            openDelay={200}
+            closeDelay={1000}
+            label="TODO: entropy ambiguity disclaimer"
+          >
             <Tag>
               ~{entropy} bits of entropy
-              <StrengthText
-                fontSize="s"
-                as="i"
-                p="0 0.5em"
-                borderTop="1px"
-                borderColor={borderColor}
-                entropy={entropy}
-              />
+              <StrengthText fontSize="s" as="i" p=".5em" entropy={entropy} />
             </Tag>
           </Tooltip>
           {/* <Text p="0 0.5em"></Text> */}

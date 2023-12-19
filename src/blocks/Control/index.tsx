@@ -158,27 +158,25 @@ export default function Control() {
           textAlign="left"
           userSelect="none"
         >
-          <OutputItem onClick={handleHeader}>{password.header}</OutputItem>
+          <OutputItem onClick={handleHeader} value={password.header} />
           {password.words
             .map<React.ReactNode>((word, index) => (
               <OutputItem
                 key={"word-" + Date.now() + index}
                 onClick={() => handleWord(index)}
-              >
-                {word}
-              </OutputItem>
+                value={word}
+              />
             ))
             .reduce((acc, curr, index) => [
               acc,
               <OutputItem
                 key={"divider-" + Date.now() + index}
                 onClick={handleDivider}
-              >
-                {password.divider}
-              </OutputItem>,
+                value={password.divider}
+              />,
               curr,
             ])}
-          <OutputItem onClick={handleTail}>{password.tail}</OutputItem>
+          <OutputItem onClick={handleTail} value={password.tail} />
         </Box>
 
         <StrengthMeter entropy={password.entropy} />
