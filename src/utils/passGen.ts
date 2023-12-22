@@ -1,8 +1,8 @@
-import { ValidTarget } from "@components/hdt-table/initials.js";
+import { ValidTarget } from "@blocks/HDTTable/initials.js";
+import { PartOfSpeech } from "@blocks/Inclusion/initials.js";
+import { Rule } from "@blocks/Leetrules/initials.js";
 import { wordlist } from "./wordlist.js";
 import { ConfigType } from "@store/index.js";
-import { Rule } from "@components/leetrules/initials.js";
-import { PartOfSpeech } from "@components/inclusion/initials.js";
 import { passwordEntropy } from "@utils/passwordEntropy.js";
 
 import showErrorToast from "./showErrorToast";

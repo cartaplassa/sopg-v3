@@ -1,4 +1,4 @@
-import { PartOfSpeech } from "@components/inclusion/initials";
+import { PartOfSpeech } from "@blocks/Inclusion/initials";
 
 export const wordlist: Record<PartOfSpeech, string[]> = {
   adjective: [
