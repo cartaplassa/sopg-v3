@@ -22,9 +22,9 @@ const custom = definePartsStyle({
     p: 1,
     borderRadius: "md",
     borderWidth: "2px",
-    borderColor: "secondary",
+    borderColor: "transparent",
     bg: "transparent",
-    boxShadow: "base",
+    boxShadow: "contour",
     _hover: {
       borderColor: "primary",
     },
@@ -33,7 +33,7 @@ const custom = definePartsStyle({
       borderColor: "primary",
       bg: "primary",
       _hover: {
-        boxShadow: "0 0 0 .05em var(--chakra-colors-primary)",
+        boxShadow: "styledoutline",
       },
     },
     _dark: {
@@ -46,7 +46,7 @@ const custom = definePartsStyle({
   thumb: {
     width: [$thumbWidth.reference],
     borderRadius: "sm",
-    boxShadow: "base",
+    boxShadow: "contour",
     _checked: {
       boxShadow: "none",
     },

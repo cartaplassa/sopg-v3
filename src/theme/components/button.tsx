@@ -1,7 +1,7 @@
 import { defineStyleConfig } from "@chakra-ui/react";
 
 const custom = {
-  boxShadow: "base",
+  boxShadow: "contour",
   borderWidth: "2px",
   borderColor: "white",
   _hover: {
@@ -15,7 +15,7 @@ const custom = {
     boxShadow: "none",
     borderColor: "primary",
     _hover: {
-      boxShadow: "0 0 0 .05em var(--chakra-colors-primary)",
+      boxShadow: "styledoutline",
     },
     _active: {
       color: "black",

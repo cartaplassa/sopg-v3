@@ -26,6 +26,11 @@ const semanticTokens = {
       _dark: "gray.700",
     },
   },
+  shadows: {
+    styledoutline: "0 0 0 .1em var(--chakra-colors-primary)",
+    contour:
+      "0 .1em .3em 0 rgba(0, 0, 0, 0.2), 0 .1em .2em 0 rgba(0, 0, 0, 0.12)",
+  },
 };
 
 const theme = extendTheme({

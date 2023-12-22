@@ -6,17 +6,31 @@ const { definePartsStyle, defineMultiStyleConfig } =
 
 const custom = definePartsStyle({
   field: {
+    boxShadow: "contour",
     pt: ".25em",
     bg: "transparent",
     borderWidth: "2px",
-    borderColor: "secondary",
+    borderColor: "transparent",
     _hover: {
       borderColor: "primary",
     },
     _focusVisible: {
       borderColor: "primary",
       _hover: {
-        boxShadow: "0 0 0 .05em var(--chakra-colors-primary)",
+        boxShadow: "styledoutline",
+      },
+    },
+    _dark: {
+      borderColor: "secondary",
+      boxShadow: "none",
+      _hover: {
+        borderColor: "primary",
+      },
+      _focusVisible: {
+        borderColor: "primary",
+        _hover: {
+          boxShadow: "styledoutline",
+        },
       },
     },
   },

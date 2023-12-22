@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { type ReactNode, useCallback } from "react";
 import { Box, Grid, Button } from "@chakra-ui/react";
 import { useImmerReducer } from "use-immer";
 
@@ -145,7 +145,7 @@ export default function Control() {
       <Box
         mb={4}
         border="2px"
-        borderColor="gray.500"
+        borderColor="secondary"
         rounded="md"
         overflow="hidden"
       >
@@ -160,7 +160,7 @@ export default function Control() {
         >
           <OutputItem onClick={handleHeader} value={password.header} />
           {password.words
-            .map<React.ReactNode>((word, index) => (
+            .map<ReactNode>((word, index) => (
               <OutputItem
                 key={"word-" + Date.now() + index}
                 onClick={() => handleWord(index)}
