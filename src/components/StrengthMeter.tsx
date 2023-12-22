@@ -12,7 +12,6 @@ import {
 } from "@chakra-ui/react";
 
 const fullScaleValue = 240;
-const borderColor = "gray.100";
 
 const stretchedBoxProps: BoxProps = {
   position: "absolute",
@@ -25,9 +24,6 @@ const scaleFlexProps: FlexProps = {
   justify: "center",
   align: "center",
   p: "1em",
-  borderTop: "1px",
-  borderBottom: "1px",
-  borderColor: "gray.100",
 };
 
 interface StrengthRating {
@@ -107,7 +103,10 @@ export function StrengthText(props: { entropy: number } & TextProps) {
   return <Text {...props}>{strengthRating[level].rating}</Text>;
 }
 
-export function StrengthMeter({ entropy }: { entropy: number }) {
+export function StrengthMeter({
+  entropy,
+  ...props
+}: BoxProps & { entropy: number }) {
   const scaleFillerBg = useColorModeValue(
     strengthRating[strengthLevel(entropy)].color,
     "primary"
@@ -119,6 +118,7 @@ export function StrengthMeter({ entropy }: { entropy: number }) {
       display="block"
       w="100%"
       minH="4em"
+      {...props}
     >
       <Box
         className="strength-meter__scale"

@@ -2,7 +2,7 @@ import { type ReactNode, useCallback } from "react";
 import { Box, Grid, Button } from "@chakra-ui/react";
 import { useImmerReducer } from "use-immer";
 
-import { Dice5 as Dice5Icon } from "@chakra-icons/bootstrap";
+import { LuDices as DiceIcon } from "react-icons/lu";
 
 import {
   generatePassword,
@@ -19,6 +19,7 @@ import showErrorToast from "@utils/showErrorToast";
 import { StrengthMeter } from "@components/StrengthMeter";
 import CopyButton from "@components/buttons/CopyButton";
 import OutputItem from "@components/OutputItem";
+import StyledIcon from "@components/StyledIcon";
 
 function hasNoToggledItems(arr: { isToggled: boolean }[]) {
   return arr.filter((item: any) => item.isToggled === true).length === 0;
@@ -157,6 +158,8 @@ export default function Control() {
           wordBreak="break-all"
           textAlign="left"
           userSelect="none"
+          borderBottomWidth="2px"
+          borderColor="secondary"
         >
           <OutputItem onClick={handleHeader} value={password.header} />
           {password.words
@@ -182,7 +185,7 @@ export default function Control() {
         <StrengthMeter entropy={password.entropy} />
       </Box>
       <Grid templateColumns="repeat(2, 1fr)" gap={2}>
-        <Button leftIcon={<Dice5Icon />} onClick={handleRegen}>
+        <Button leftIcon={<StyledIcon as={DiceIcon} />} onClick={handleRegen}>
           Generate
         </Button>
         <CopyButton valueToCopy={password.joined} />

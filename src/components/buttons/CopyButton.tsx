@@ -3,27 +3,27 @@ import { Button } from "@chakra-ui/react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 
 import {
-  Clipboard as ClipboardIcon,
-  ClipboardCheckFill as ClipboardCheckFillIcon,
-  ClipboardXFill as ClipboardXFillIcon,
-} from "@chakra-icons/bootstrap";
+  BsClipboard,
+  BsClipboardCheckFill,
+  BsClipboardXFill,
+} from "react-icons/bs";
+import StyledIcon from "@components/StyledIcon";
 
 export default function CopyButton({ valueToCopy }: { valueToCopy: string }) {
   const [buttonText, setButtonText] = useState("Copy");
-  const [buttonIcon, setButtonIcon] = useState(<ClipboardIcon />);
+  const [buttonIcon, setButtonIcon] = useState(<StyledIcon as={BsClipboard} />);
 
   const onCopy = useCallback(() => {
     if (valueToCopy) {
-      console.log(valueToCopy);
       setButtonText("Copied!");
-      setButtonIcon(<ClipboardCheckFillIcon />);
+      setButtonIcon(<StyledIcon as={BsClipboardCheckFill} />);
     } else {
       setButtonText("No value");
-      setButtonIcon(<ClipboardXFillIcon />);
+      setButtonIcon(<StyledIcon as={BsClipboardXFill} />);
     }
     setTimeout(() => {
       setButtonText("Copy");
-      setButtonIcon(<ClipboardIcon />);
+      setButtonIcon(<StyledIcon as={BsClipboard} />);
     }, 3000);
   }, [valueToCopy]);
 

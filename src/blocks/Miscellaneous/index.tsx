@@ -7,18 +7,20 @@ import {
   Text,
   Link,
   useColorMode,
+  Icon,
 } from "@chakra-ui/react";
-import {
-  Github as GithubIcon,
-  CloudUpload as CloudUploadIcon,
-  Download as DownloadIcon,
-} from "@chakra-icons/bootstrap";
+
+import { FaGithub as GithubIcon } from "react-icons/fa";
+import { MdOutlineCloudUpload as UploadIcon } from "react-icons/md";
+import { FaFileDownload as DownloadIcon } from "react-icons/fa";
 
 import { StateType, isError, readConfig, useConfigStore } from "@store/index";
 
 import showErrorToast from "@utils/showErrorToast";
 import { ChangeEvent } from "react";
+
 import UploadButton from "@components/buttons/UploadButton";
+import StyledIcon from "@components/StyledIcon";
 
 interface HTMLFileInputElement extends HTMLInputElement {
   files: FileList;
@@ -73,9 +75,7 @@ export default function Miscellaneous() {
       const parsed = JSON.parse(result);
       const newConfig = readConfig(parsed);
 
-      // console.log(config);
       if (!isError(newConfig)) setConfig(newConfig);
-      // console.log(config);
     };
   };
 
@@ -99,14 +99,14 @@ export default function Miscellaneous() {
         gridTemplateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" }}
       >
         <UploadButton
-          leftIcon={<CloudUploadIcon />}
+          leftIcon={<StyledIcon as={UploadIcon} />}
           onChange={uploadConfig}
           flexGrow={1}
         >
           Load config
         </UploadButton>
         <Button
-          leftIcon={<DownloadIcon />}
+          leftIcon={<StyledIcon as={DownloadIcon} />}
           onClick={downloadConfig}
           flexGrow={1}
         >
@@ -123,7 +123,7 @@ export default function Miscellaneous() {
       <Text>
         Copyleft,{" "}
         <Link href="https://github.com/cartaplassa/sopg-v3" isExternal>
-          <GithubIcon /> Cartaplassa
+          <Icon as={GithubIcon} /> Cartaplassa
         </Link>
         , 2023
       </Text>
