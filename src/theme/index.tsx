@@ -2,12 +2,22 @@ import { extendTheme, type ThemeConfig } from "@chakra-ui/react";
 
 import components from "./components";
 
-const breakpoints = {
+/*
+const oldBreakpoints = {
   sm: "40em", // 480px
   md: "58em", // 768px
   lg: null, // 992px
   xl: null, // 1280px
   "2xl": "96em", // 1536px
+};
+*/
+
+const breakpoints = {
+  sm: "24em", // 384px
+  md: "42em", // 672px
+  lg: "80em", // 1280px
+  xl: null,
+  "2xl": null,
 };
 
 const config: ThemeConfig = {

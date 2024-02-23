@@ -12,6 +12,11 @@ import {
 } from "@chakra-ui/react";
 
 const fullScaleValue = 240;
+const disclaimer = `
+This entropy calculator should only be used as reference
+and by no means as an objective measurement of password's
+durability towards attacks.
+`;
 
 const stretchedBoxProps: BoxProps = {
   position: "absolute",
@@ -137,8 +142,8 @@ export function StrengthMeter({
           <Tooltip
             // hasArrow
             openDelay={200}
-            closeDelay={1000}
-            label="TODO: entropy ambiguity disclaimer"
+            // closeDelay={1000}
+            label={disclaimer}
           >
             <Tag>
               ~{entropy} bits of entropy
