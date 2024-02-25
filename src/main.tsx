@@ -5,6 +5,15 @@ import "./index.css";
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import theme from "@theme";
 
+import { registerSW } from "virtual:pwa-register";
+import showUpdateToast from "@utils/updateSW"
+
+const updateSW = registerSW({
+  onNeedRefresh() {
+    showUpdateToast(updateSW);
+  },
+});
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>

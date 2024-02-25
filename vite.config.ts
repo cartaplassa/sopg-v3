@@ -1,26 +1,8 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tsconfigPaths from "vite-tsconfig-paths";
-import { VitePWA } from 'vite-plugin-pwa';
-import manifest from './manifest.json';
 
-const workbox = {
-  globDirectory: "dist/",
-  globPatterns: ["**/*/.{html,css,js,png,svg,ico,webp,txt}"],
-  swDest: "dist/sw.js",
-  maximumFileSizeToCacheInBytes: 3145728,
-  navigateFallback: null,
-}
-
-const vitePWA = VitePWA({
-  registerType: 'autoUpdate',
-  outDir: "dist",
-  devOptions: {
-    enabled: true
-  },
-  manifest,
-  workbox
-})
+import vitePWA from "./vitePWA.config.ts";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -30,4 +12,14 @@ export default defineConfig({
     vitePWA,
   ],
   base: "/sopg-v3",
+  build: {
+    minify: {
+      terserOptions: {
+        compress: {
+          drop_console: true, // Remove console.log statements
+          drop_debugger: true // Remove debugger statements
+        }
+      }
+    }
+  }
 });

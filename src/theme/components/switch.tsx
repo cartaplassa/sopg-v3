@@ -38,7 +38,9 @@ const custom = definePartsStyle({
     },
     _dark: {
       boxShadow: "none",
+      borderColor: "secondary",
       _checked: {
+        borderColor: "primary",
         bg: "transparent",
       },
     },

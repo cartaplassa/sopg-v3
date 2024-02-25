@@ -22,6 +22,8 @@ import { ChangeEvent } from "react";
 import UploadButton from "@components/buttons/UploadButton";
 import StyledIcon from "@components/StyledIcon";
 
+import showUpdateToast from "@utils/updateSW";
+
 interface HTMLFileInputElement extends HTMLInputElement {
   files: FileList;
 }
@@ -93,6 +95,7 @@ export default function Miscellaneous() {
           Dark mode
         </Text>
       </chakra.label>
+      <Button hidden onClick={showUpdateToast}>[DEBUG] Update toast</Button>
       <Grid
         w="100%"
         gap=".5em"

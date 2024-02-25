@@ -71,7 +71,7 @@ export default function Leetrules() {
     <Box>
       <Grid
         gap=".5em"
-        gridTemplateColumns={{ base: "repeat(1, 1fr)", sm: "repeat(2, 1fr)" }}
+        gridTemplateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
       >
         {rules.map((rule: Rule) => (
           <Leetrule
