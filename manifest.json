@@ -4,8 +4,8 @@
   "description": "Password generator that combines the readability of random words combination with resistance towards dictionary attacks that of random char string",
   "theme_color": "#48BB78",
   "background_color": "#2D3748",
-  "display": "standalone",
-  "orientation": "",
+  "display": "fullscreen",
+  "orientation": "any",
   "scope": ".",
   "start_url": "./",
   "icons": [
