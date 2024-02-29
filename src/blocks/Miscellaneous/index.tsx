@@ -128,7 +128,7 @@ export default function Miscellaneous() {
         <Link href="https://github.com/cartaplassa/sopg-v3" isExternal>
           <Icon as={GithubIcon} /> Cartaplassa
         </Link>
-        , 2023
+        , 2023-2024
       </Text>
     </VStack>
   );
