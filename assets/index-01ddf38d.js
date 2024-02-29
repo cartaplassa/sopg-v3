@@ -157996,7 +157996,7 @@ function Leetrule({
   toggleRule,
   isToggled
 }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(Flex, { className: "leetrule", align: "center", children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(Flex, { className: "leetrule", align: "center", minWidth: "0px", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(Switch, { mr: ".5em", onChange: toggleRule, isChecked: isToggled }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       Input,
@@ -158008,7 +158008,7 @@ function Leetrule({
         flexGrow: "7"
       }
     ),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { m: "0 .5em", children: "⟶" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Text, { m: "0 .25em", children: ">" }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(
       Input,
       {
@@ -158203,6 +158203,9 @@ function AccordionBlock({
     /* @__PURE__ */ jsxRuntimeExports.jsx(AccordionPanel, { children })
   ] });
 }
+function Title() {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(Heading, { as: "h1", fontSize: "3xl", m: "0 .5em", wordBreak: "break-word", children: "Secure-Obscure Password Generator" });
+}
 function AppRegular(props) {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(
     Box,
@@ -158212,7 +158215,7 @@ function AppRegular(props) {
       p: "1.75em 0 0 0",
       ...props,
       children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Heading, { as: "h1", fontSize: "3xl", m: "0 .5em", children: "Secure-Obscure Password Generator" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Title, {}),
         /* @__PURE__ */ jsxRuntimeExports.jsx(Control, { p: "1em" }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs(Accordion, { allowToggle: true, children: [
           /* @__PURE__ */ jsxRuntimeExports.jsx(AccordionBlock, { title: "Division", children: /* @__PURE__ */ jsxRuntimeExports.jsx(HDT, {}) }),
@@ -158231,7 +158234,7 @@ function AppWide(props) {
     {
       w: "76rem",
       margin: "0 auto",
-      p: "1.75em 1em 1.25em",
+      p: "1.75em 0 1.25em 1em",
       align: "stretch",
       gap: "0",
       ...props,
@@ -158245,7 +158248,7 @@ function AppWide(props) {
             borderRight: border,
             p: "0 .5em",
             children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx(Heading, { as: "h1", fontSize: "3xl", m: "0 .5em", children: "Secure-Obscure Password Generator" }),
+              /* @__PURE__ */ jsxRuntimeExports.jsx(Title, {}),
               /* @__PURE__ */ jsxRuntimeExports.jsx(Control, { p: "0 0 .5em", borderBottom: border }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(HDT, { borderBottom: border }),
               /* @__PURE__ */ jsxRuntimeExports.jsx(Miscellaneous, {})
@@ -158253,8 +158256,8 @@ function AppWide(props) {
           }
         ),
         /* @__PURE__ */ jsxRuntimeExports.jsxs(VStack, { w: "50%", maxH: "100%", flex: "1 1 0px", align: "stretch", gap: "0", p: "0 0 0 .5em", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Box, { maxH: "50%", overflowY: "scroll", flex: "1 1 0px", p: "0 0 .5em", borderBottom: border, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Inclusion, {}) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Box, { maxH: "50%", overflowY: "scroll", flex: "1 1 0px", p: ".5em 0 0", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Leetrules, {}) })
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Box, { maxH: "50%", overflowY: "scroll", flex: "1 1 0px", p: "0 1em .5em 0", borderBottom: border, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Inclusion, {}) }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Box, { maxH: "50%", overflowY: "scroll", flex: "1 1 0px", p: ".5em 1em 0 0", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Leetrules, {}) })
         ] })
       ]
     }
