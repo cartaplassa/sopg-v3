@@ -19,6 +19,13 @@ import Leetrules from "@blocks/Leetrules";
 import Miscellaneous from "@blocks/Miscellaneous";
 import AccordionBlock from "@components/AccordionBlock";
 
+function Title() {
+  return (
+    <Heading as="h1" fontSize="3xl" m="0 .5em" wordBreak="break-word" >
+      Secure-Obscure Password&nbsp;Generator
+    </Heading>
+  )
+}
 
 function AppRegular(props: BoxProps) {
   return (
@@ -28,9 +35,7 @@ function AppRegular(props: BoxProps) {
       p="1.75em 0 0 0"
       {...props}
     >
-      <Heading as="h1" fontSize="3xl" m="0 .5em">
-        Secure-Obscure Password Generator
-      </Heading>
+      <Title />
       <Control p="1em" />
 
       <Accordion allowToggle>
@@ -57,7 +62,7 @@ function AppWide(props: BoxProps) {
     <HStack
       w="76rem"
       margin="0 auto"
-      p="1.75em 1em 1.25em"
+      p="1.75em 0 1.25em 1em"
       align="stretch"
       gap="0"
       {...props}
@@ -69,18 +74,16 @@ function AppWide(props: BoxProps) {
         borderRight={border}
         p="0 .5em"
       >
-        <Heading as="h1" fontSize="3xl" m="0 .5em">
-          Secure-Obscure Password Generator
-        </Heading>
+        <Title />
         <Control p="0 0 .5em" borderBottom={border} />
         <HDT borderBottom={border} />
         <Miscellaneous />
       </VStack>
       <VStack w="50%" maxH="100%" flex="1 1 0px" align="stretch" gap="0" p="0 0 0 .5em">
-        <Box maxH="50%" overflowY="scroll" flex="1 1 0px" p="0 0 .5em" borderBottom={border}>
+        <Box maxH="50%" overflowY="scroll" flex="1 1 0px" p="0 1em .5em 0" borderBottom={border}>
           <Inclusion />
         </Box>
-        <Box maxH="50%" overflowY="scroll" flex="1 1 0px" p=".5em 0 0">
+        <Box maxH="50%" overflowY="scroll" flex="1 1 0px" p=".5em 1em 0 0">
           <Leetrules />
         </Box>
       </VStack>
