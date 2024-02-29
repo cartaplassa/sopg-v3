@@ -33,7 +33,7 @@ function Leetrule({
   isToggled,
 }: LeetruleProps) {
   return (
-    <Flex className="leetrule" align="center">
+    <Flex className="leetrule" align="center" minWidth="0px">
       <Switch mr=".5em" onChange={toggleRule} isChecked={isToggled} />
       <Input
         defaultValue={ruleFrom}
@@ -42,7 +42,7 @@ function Leetrule({
         htmlSize={1}
         flexGrow="7"
       />
-      <Text m="0 .5em">⟶</Text>
+      <Text m="0 .25em">&gt;</Text>
       <Input
         defaultValue={ruleTo}
         onChange={editRuleTo}
