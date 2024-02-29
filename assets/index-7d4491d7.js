@@ -158187,7 +158187,7 @@ function Miscellaneous() {
         /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { as: FaGithub }),
         " Cartaplassa"
       ] }),
-      ", 2023"
+      ", 2023-2024"
     ] })
   ] });
 }
