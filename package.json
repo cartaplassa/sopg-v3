@@ -8,7 +8,8 @@
     "dev": "vite --host",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "build": "tsc && vite build && mkdir temp && mv dist/* temp && mkdir dist/sopg-v3 && mv temp/* dist/sopg-v3/ && rm -r temp",
+    "build": "tsc && vite build",
+    "dev-build": "tsc && vite build && mkdir temp && mv dist/* temp && mkdir dist/sopg-v3 && mv temp/* dist/sopg-v3/ && rm -r temp",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
