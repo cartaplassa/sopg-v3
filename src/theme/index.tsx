@@ -12,7 +12,7 @@ const oldBreakpoints = {
 };
 */
 
-const breakpoints = {
+export const breakpoints = {
   sm: "24em", // 384px
   md: "42em", // 672px
   lg: "80em", // 1280px

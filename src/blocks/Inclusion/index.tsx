@@ -49,7 +49,7 @@ function IncludedWord({
   );
 }
 
-export default function Inclusion() {
+export default function Inclusion({...props}) {
   const words = useConfigStore((state: StateType) => state.config.words);
 
   const addWord = useConfigStore((state: StateType) => state.addWord);
@@ -61,7 +61,7 @@ export default function Inclusion() {
     console.log(words.filter((word: Word) => word.partOfSpeech));
 
   return (
-    <Box>
+    <Box {...props}>
       {/* <Grid gridTemplateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)"]}> */}
       <VStack>
         {words.map((word: Word, index: number) => (

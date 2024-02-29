@@ -83,13 +83,13 @@ export default function Miscellaneous() {
 
   return (
     <VStack>
-      <chakra.label>
+      <chakra.label alignSelf="flex-start">
         <Switch onChange={handleToggleLeetify} isChecked={config.HDT.leetify} />
         <Text ml=".5em" as="span">
           Toggle leetrules
         </Text>
       </chakra.label>
-      <chakra.label>
+      <chakra.label alignSelf="flex-start">
         <Switch onChange={toggleColorMode} isChecked={colorMode === "dark"} />
         <Text ml=".5em" as="span">
           Dark mode

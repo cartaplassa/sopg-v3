@@ -55,7 +55,7 @@ function Leetrule({
   );
 }
 
-export default function Leetrules() {
+export default function Leetrules({...props}) {
   // const [rules, setRules] = useState(initialRules);
   const rules = useConfigStore((state: StateType) => state.config.leetrules);
 
@@ -68,7 +68,7 @@ export default function Leetrules() {
   const logRules = (_: MouseEvent<HTMLButtonElement>) => console.log(rules);
 
   return (
-    <Box>
+    <Box {...props}>
       <Grid
         gap=".5em"
         gridTemplateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}

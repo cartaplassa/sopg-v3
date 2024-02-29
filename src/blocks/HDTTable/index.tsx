@@ -7,7 +7,7 @@ import RadioInput from "@components/RadioInput";
 import FlexRadioGroup from "@components/FlexRadioGroup";
 import GridRadioGroup from "@components/GridRadioGroup";
 
-export default function HDT() {
+export default function HDT({...props}) {
   const table = useConfigStore((state: StateType) => state.config.HDT);
 
   const changeCase = useConfigStore((state: StateType) => state.changeCase);
@@ -22,7 +22,7 @@ export default function HDT() {
   const logTable = (_: MouseEvent<HTMLButtonElement>) => console.log(table);
 
   return (
-    <Grid {...gridCoordinates.root} gap="4px">
+    <Grid {...gridCoordinates.root} gap="4px" {...props}>
       {/* CHAR POOL */}
 
       <Heading

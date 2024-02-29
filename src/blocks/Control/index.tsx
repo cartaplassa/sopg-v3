@@ -16,7 +16,7 @@ import StyledIcon from "@components/StyledIcon";
 
 const initialPassword = generatePassword(initialConfig);
 
-export default function Control() {
+export default function Control({...props}) {
   const config = useConfigStore((state: StateType) => state.config);
 
   const [password, dispatch] = useImmerReducer(
@@ -34,7 +34,7 @@ export default function Control() {
   const handleRegen = useCallback(() => dispatch({ type: "regen" }), []);
 
   return (
-    <Box p="1em">
+    <Box {...props}>
       <Box
         mb={4}
         border="2px"
